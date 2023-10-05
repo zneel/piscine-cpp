@@ -2,3 +2,4 @@
 *.d
 megaphone
 .cache
+compile_commands.json

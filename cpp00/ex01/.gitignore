@@ -2,3 +2,4 @@
 *.d
 phonebook
 .cache
+compile_commands.json
