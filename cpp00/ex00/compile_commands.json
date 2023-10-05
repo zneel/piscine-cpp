@@ -1,0 +1,14 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-o",
+      "megaphone.o",
+      "megaphone.cpp"
+    ],
+    "directory": "/mnt/nfs/homes/ebouvier/work/piscine-cpp/cpp00/ex00",
+    "file": "/mnt/nfs/homes/ebouvier/work/piscine-cpp/cpp00/ex00/megaphone.cpp",
+    "output": "/mnt/nfs/homes/ebouvier/work/piscine-cpp/cpp00/ex00/megaphone.o"
+  }
+]
