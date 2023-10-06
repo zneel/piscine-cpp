@@ -6,79 +6,104 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 13:59:53 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/06 16:35:35 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/10/06 19:51:51 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
 #include "Contact.hpp"
-#include <iostream>
-#include <ostream>
+#include <cctype>
+#include <iterator>
+#include <string>
 
+/**
+ * @brief Construct a new Phone Book:: Phone Book object
+ *
+ */
 PhoneBook::PhoneBook() {
-  this->max = 8;
-  this->current = 0;
-  for (int i = 0; i < this->max; ++i)
-    this->contacts[i].setId(-1);
+  this->max_ = 8;
+  this->current_ = 0;
+  this->total_ = 0;
+  for (int i = 0; i < this->max_; ++i)
+    this->contacts_[i].setId(-1);
 }
+
 PhoneBook::~PhoneBook() {}
 
+/**
+ * @brief
+ * Add a contact to the phonebook
+ *
+ */
 void PhoneBook::add() {
-  this->contacts[this->current].add(this->current);
-  this->current++;
-  if (this->current >= this->max)
-    this->current = 0;
+  this->contacts_[this->current_].add(this->current_);
+  this->current_++;
+  this->total_++;
+  if (this->current_ >= this->max_)
+    this->current_ = 0;
 }
 
+/**
+ * @brief
+ * Check if the phonebook has at least one contact
+ *
+ * @return true
+ * @return false
+ */
 bool PhoneBook::hasContacts() {
-  for (int i = 0; i < this->max; ++i) {
-    if (this->contacts[i].getId() >= 0)
+  for (int i = 0; i < this->max_; ++i) {
+    if (this->contacts_[i].getId() >= 0)
       return true;
   }
+
   return false;
 }
 
+int PhoneBook::convertToInt(std::string v) {
+  int value = 0;
+  for (std::string::iterator it = v.begin(); it != v.end(); ++it) {
+    if (!std::isdigit(*it))
+      return -1;
+    value = value * 10 + (*it - '0');
+  }
+  return value;
+}
+
+/**
+ * @brief Search a contact in the phonebook
+ *
+ */
 void PhoneBook::search() {
-  std::string input;
   if (!this->hasContacts()) {
     std::cout << "No contacts yet..." << std::endl;
+
     return;
   }
-  this->display();
-  std::cout << "Please enter an index to display the contact." << std::endl;
+  for (int i = 0; i < this->max_; ++i)
+    this->contacts_[i].displayLine();
+
+  std::cout << "Enter an index: " << std::endl;
   std::cout << "> ";
+  std::string input = "";
   while (std::getline(std::cin, input, '\n') && input.empty()) {
-    std::cout << "Please enter an index to display the contact." << std::endl;
+    std::cout << "Enter an index: " << std::endl;
     std::cout << "> ";
   }
-  int index = std::atoi(input.c_str());
-  if (index < 0 || index >= this->max) {
+  if (std::cin.bad() || std::cin.eof())
+    std::exit(0);
+  int index = convertToInt(input);
+  if (index < 0 || index >= this->max_ || index >= this->total_) {
     std::cout << "Invalid input. Please enter a valid index." << std::endl;
+
     return;
   }
-  this->displayOne(this->contacts[index]);
+  this->contacts_[index].displayFull();
 }
 
-void PhoneBook::display() {
-  for (int i = 0; i < this->max; ++i) {
-    if (this->contacts[i].getId() >= 0)
-      std::cout << std::right << std::setw(10) << this->contacts[i].getId()
-                << "|" << std::setw(10) << this->contacts[i].getFirstName()
-                << "|" << std::setw(10) << this->contacts[i].getLastName()
-                << "|" << std::setw(10) << this->contacts[i].getNickName()
-                << std::endl;
-  }
-}
-
-void PhoneBook::displayOne(Contact contact) {
-  std::cout << ">Index: " << contact.getId() << std::endl;
-  std::cout << ">Lastname: " << contact.getLastName() << std::endl;
-  std::cout << ">Firstname: " << contact.getFirstName() << std::endl;
-  std::cout << ">Nickname: " << contact.getNickName() << std::endl;
-  std::cout << ">Phone number: " << contact.getPhoneNumber() << std::endl;
-  std::cout << ">Darkest Secret: " << contact.getDarkestSecret() << std::endl;
-}
-
+/**
+ * @brief Display the usage of the phonebook
+ *
+ */
 void PhoneBook::usage() {
   std::cout << "Welcome to the Phonebook" << std::endl;
   std::cout << "Please enter one off these commands: ";

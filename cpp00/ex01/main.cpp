@@ -6,18 +6,15 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:37:20 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/06 14:37:45 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/10/06 18:40:59 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
-#include <cstdlib>
-#include <iostream>
-#include <string>
 
 int main() {
   PhoneBook pb = PhoneBook();
-  std::string command;
+  std::string command = "";
   pb.usage();
   while (std::getline(std::cin, command, '\n')) {
     if (command.compare("EXIT") == 0)

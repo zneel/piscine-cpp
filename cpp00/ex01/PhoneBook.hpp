@@ -6,16 +6,18 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 13:59:50 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/06 16:28:35 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/10/06 19:41:08 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "Contact.hpp"
+#include <cstdlib>
 #include <iomanip>
 #include <ios>
 #include <iostream>
+#include <ostream>
 #include <string>
 
 class PhoneBook {
@@ -27,12 +29,12 @@ public:
   void usage();
 
 private:
-  int current;
-  int max;
+  int current_;
+  int max_;
+  int total_;
   void displayHeader();
   void displayFooter();
   bool hasContacts();
-  void displayOne(Contact contact);
-  void display();
-  Contact contacts[8];
+  int convertToInt(std::string str);
+  Contact contacts_[8];
 };
