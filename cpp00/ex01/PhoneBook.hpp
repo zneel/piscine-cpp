@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 13:59:50 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/06 19:41:08 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/10/07 11:42:06 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ private:
   int total_;
   void displayHeader();
   void displayFooter();
-  bool hasContacts();
   int convertToInt(std::string str);
   Contact contacts_[8];
 };

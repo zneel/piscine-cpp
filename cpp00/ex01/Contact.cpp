@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:27:43 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/06 19:11:51 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/10/07 11:56:22 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ void Contact::setId(int idx) { this->id_ = idx; }
 void Contact::displayLine() {
   if (this->id_ >= 0) {
     std::string firstName = this->firstName_;
-    if (firstName.size() > 9)
+    if (firstName.size() > 10)
       firstName = firstName.substr(0, 9) + ".";
     std::string lastName = this->lastName_;
-    if (lastName.size() > 9)
+    if (lastName.size() > 10)
       lastName = lastName.substr(0, 9) + ".";
     std::string nickName = this->nickName_;
-    if (nickName.size() > 9)
+    if (nickName.size() > 10)
       nickName = nickName.substr(0, 9) + ".";
 
-    std::cout << std::right << std::setw(10) << this->id_ << "|"
+    std::cout << "|" << std::right << std::setw(10) << this->id_ << "|"
               << std::setw(10) << firstName << "|" << std::setw(10) << lastName
-              << "|" << std::setw(10) << nickName << std::endl;
+              << "|" << std::setw(10) << nickName << "|" << std::endl;
   }
 }
 
@@ -57,8 +57,8 @@ void Contact::displayLine() {
  */
 void Contact::displayFull() {
   std::cout << "⏵ Index: " << this->id_ << std::endl;
-  std::cout << "⏵ Lastname: " << this->lastName_ << std::endl;
   std::cout << "⏵ Firstname: " << this->firstName_ << std::endl;
+  std::cout << "⏵ Lastname: " << this->lastName_ << std::endl;
   std::cout << "⏵ Nickname: " << this->nickName_ << std::endl;
   std::cout << "⏵ Phone number: " << this->phoneNumber_ << std::endl;
   std::cout << "⏵ Darkest Secret: " << this->darkestSecret_ << std::endl;

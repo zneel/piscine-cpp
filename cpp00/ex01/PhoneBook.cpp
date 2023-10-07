@@ -6,7 +6,7 @@
 /*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 13:59:53 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/06 19:51:51 by ebouvier         ###   ########.fr       */
+/*   Updated: 2023/10/07 11:50:57 by ebouvier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,6 @@ void PhoneBook::add() {
     this->current_ = 0;
 }
 
-/**
- * @brief
- * Check if the phonebook has at least one contact
- *
- * @return true
- * @return false
- */
-bool PhoneBook::hasContacts() {
-  for (int i = 0; i < this->max_; ++i) {
-    if (this->contacts_[i].getId() >= 0)
-      return true;
-  }
-
-  return false;
-}
-
 int PhoneBook::convertToInt(std::string v) {
   int value = 0;
   for (std::string::iterator it = v.begin(); it != v.end(); ++it) {
@@ -74,14 +58,17 @@ int PhoneBook::convertToInt(std::string v) {
  *
  */
 void PhoneBook::search() {
-  if (!this->hasContacts()) {
+  if (!this->total_) {
     std::cout << "No contacts yet..." << std::endl;
 
     return;
   }
+  std::cout << "┌──────────┬──────────┬──────────┬──────────┐" << std::endl;
+  std::cout << "│   INDEX  │FIRST NAME│ LASTNAME │ NICKNAME │" << std::endl;
+  std::cout << "├──────────┼──────────┼──────────┼──────────┤" << std::endl;
   for (int i = 0; i < this->max_; ++i)
     this->contacts_[i].displayLine();
-
+  std::cout << "└──────────┴──────────┴──────────┴──────────┘" << std::endl;
   std::cout << "Enter an index: " << std::endl;
   std::cout << "> ";
   std::string input = "";
@@ -93,7 +80,7 @@ void PhoneBook::search() {
     std::exit(0);
   int index = convertToInt(input);
   if (index < 0 || index >= this->max_ || index >= this->total_) {
-    std::cout << "Invalid input. Please enter a valid index." << std::endl;
+    std::cout << "Invalid input." << std::endl;
 
     return;
   }
