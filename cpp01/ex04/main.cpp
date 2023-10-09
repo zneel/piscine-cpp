@@ -13,13 +13,19 @@ int main(int ac, char** av) {
     return 1;
   }
 
+  std::string s1 = av[2];
+  std::string s2 = av[3];
+  if (s1.empty() || s2.empty()) {
+    std::cout << "sed: ";
+    std::cerr << "Need strings to replace." << std::endl;
+    return 1;
+  }
+
   std::ifstream inFile;
   std::ofstream outFile;
   std::string line;
   std::string out = av[1];
   out.append(".replace");
-  std::string s1 = av[2];
-  std::string s2 = av[3];
 
   inFile.open(av[1], std::ios_base::in);
   if (!inFile.is_open() || !inFile.good()) {
