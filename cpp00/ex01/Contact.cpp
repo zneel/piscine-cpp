@@ -8,7 +8,7 @@ Contact::~Contact() {}
  *
  * @return int
  */
-int Contact::getId() { return this->id_; }
+int Contact::getId() const { return this->id_; }
 
 /**
  * @brief

@@ -11,7 +11,7 @@ class Contact {
   Contact();
   ~Contact();
 
-  int getId();
+  int getId() const;
   void setId(int idx);
 
   void add(int idx);
