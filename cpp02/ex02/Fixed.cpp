@@ -7,16 +7,23 @@
 
 // Constructors - Destructor
 
-Fixed::Fixed() : fp_(0 * (1 << this->fb_)) {
-  std::cout << "Default constructor called" << std::endl;
+Fixed::Fixed() : fixedPoint_(0 * (1 << this->fractionalBits_)) {
+  std::cout << "Default constructor called with no argument, got "
+            << this->fixedPoint_
+            << ", expecting 0 * (1 << this->fractionalBits_) " << std::endl;
 }
 
-Fixed::Fixed(int const i) : fp_(i * (1 << this->fb_)) {
-  std::cout << "Integer constructor called" << std::endl;
+Fixed::Fixed(int const i) : fixedPoint_(i * (1 << this->fractionalBits_)) {
+  std::cout << "Integer constructor called with argument " << i << ", got "
+            << this->fixedPoint_ << ", expecting "
+            << i * (1 << this->fractionalBits_) << std::endl;
 }
 
-Fixed::Fixed(float const f) : fp_(roundf(f * (1 << this->fb_))) {
-  std::cout << "Float constructor called" << std::endl;
+Fixed::Fixed(float const f)
+    : fixedPoint_(roundf(f * (1 << this->fractionalBits_))) {
+  std::cout << "Float constructor called with argument " << f << ", got "
+            << this->fixedPoint_ << ", expecting "
+            << roundf(f * (1 << this->fractionalBits_)) << std::endl;
 }
 
 Fixed::Fixed(const Fixed &f) {
@@ -29,26 +36,23 @@ Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
 Fixed &Fixed::operator=(const Fixed &other) {
   if (this == &other) return *this;
   std::cout << "Copy assignment operator called" << std::endl;
-  this->fp_ = other.getRawBits();
+  this->fixedPoint_ = other.getRawBits();
   return *this;
 }
 
 // Setters - getters
 
-int Fixed::getRawBits() const {
-  std::cout << "getRawBits member function called" << std::endl;
-  return this->fp_;
-}
+int Fixed::getRawBits() const { return this->fixedPoint_; }
 
-void Fixed::setRawBits(int const raw) { this->fp_ = raw; }
+void Fixed::setRawBits(int const raw) { this->fixedPoint_ = raw; }
 
 float Fixed::toFloat() const {
-  return static_cast<float>(this->fp_) / (1 << this->fb_);
+  return static_cast<float>(this->fixedPoint_) / (1 << this->fractionalBits_);
 }
 
-int Fixed::toInt() const { return this->fp_ >> this->fb_; };
+int Fixed::toInt() const { return this->fixedPoint_ >> this->fractionalBits_; };
 
-// Overloads
+// Comparison overloads
 
 bool Fixed::operator>(Fixed const &fp) const {
   return this->getRawBits() > fp.getRawBits();
@@ -74,6 +78,8 @@ bool Fixed::operator!=(Fixed const &fp) const {
   return this->getRawBits() != fp.getRawBits();
 }
 
+// Arithmetics overloads
+
 Fixed Fixed::operator+(Fixed const &fp) {
   return this->toFloat() + fp.toFloat();
 }
@@ -90,25 +96,27 @@ Fixed Fixed::operator/(Fixed const &fp) {
   return this->toFloat() / fp.toFloat();
 }
 
+// Increment - decrement operators
+
 Fixed &Fixed::operator++() {
-  this->fp_ += 1;
+  this->fixedPoint_ += 1;
   return *this;
 }
 
 Fixed &Fixed::operator--() {
-  this->fp_ -= 1;
+  this->fixedPoint_ -= 1;
   return *this;
 }
 
 Fixed Fixed::operator++(int) {
   Fixed tmp = *this;
-  this->fp_ += 1;
+  this->fixedPoint_ += 1;
   return tmp;
 }
 
 Fixed Fixed::operator--(int) {
   Fixed tmp = *this;
-  this->fp_ -= 1;
+  this->fixedPoint_ -= 1;
   return tmp;
 }
 

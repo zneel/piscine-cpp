@@ -39,8 +39,8 @@ class Fixed {
   int toInt() const;
 
  private:
-  int fp_;
-  static const int fb_ = 8;
+  int fixedPoint_;
+  static const int fractionalBits_ = 8;
 };
 
 std::ostream &operator<<(std::ostream &os, Fixed const &fp);
