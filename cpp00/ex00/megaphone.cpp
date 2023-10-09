@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   megaphone.cpp                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/23 13:52:06 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/05 15:31:55 by ebouvier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <cctype>
 #include <iostream>
 #include <string>
@@ -24,8 +12,7 @@ int main(int argc, const char **argv) {
   std::string str;
   for (int i = 1; i < argc; ++i) {
     str.append(argv[i]);
-    if (i < argc - 1)
-      str.append(" ");
+    if (i < argc - 1) str.append(" ");
   }
   for (std::string::iterator it = str.begin(); it != str.end(); ++it) {
     *it = std::toupper(*it);
