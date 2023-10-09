@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Contact.cpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/23 15:27:43 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/07 11:56:22 by ebouvier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Contact.hpp"
 
 Contact::Contact() {}
@@ -36,14 +24,11 @@ void Contact::setId(int idx) { this->id_ = idx; }
 void Contact::displayLine() {
   if (this->id_ >= 0) {
     std::string firstName = this->firstName_;
-    if (firstName.size() > 10)
-      firstName = firstName.substr(0, 9) + ".";
+    if (firstName.size() > 10) firstName = firstName.substr(0, 9) + ".";
     std::string lastName = this->lastName_;
-    if (lastName.size() > 10)
-      lastName = lastName.substr(0, 9) + ".";
+    if (lastName.size() > 10) lastName = lastName.substr(0, 9) + ".";
     std::string nickName = this->nickName_;
-    if (nickName.size() > 10)
-      nickName = nickName.substr(0, 9) + ".";
+    if (nickName.size() > 10) nickName = nickName.substr(0, 9) + ".";
 
     std::cout << "|" << std::right << std::setw(10) << this->id_ << "|"
               << std::setw(10) << firstName << "|" << std::setw(10) << lastName
@@ -85,16 +70,16 @@ void Contact::add(int idx) {
  * @return
  */
 std::string Contact::prompt(std::string prompt) {
-  std::string input;
+  std::string input = "";
   std::cout << prompt << std::endl;
   std::cout << "> ";
-  while (std::getline(std::cin, input, '\n') && !input.size()) {
+  while (std::getline(std::cin, input) && input.empty()) {
     if (input.size() == 0) {
       std::cout << prompt << std::endl;
+      std::cout << "> ";
       continue;
     }
   }
-  if (std::cin.bad() || std::cin.eof())
-    std::exit(0);
+  if (std::cin.bad() || std::cin.eof()) std::exit(0);
   return input;
 }

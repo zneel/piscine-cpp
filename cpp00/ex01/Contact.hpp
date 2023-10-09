@@ -1,24 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Contact.hpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ebouvier <ebouvier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/23 14:00:37 by ebouvier          #+#    #+#             */
-/*   Updated: 2023/10/06 18:50:06 by ebouvier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
+
+#include <string.h>
 
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
-#include <string.h>
 
 class Contact {
-public:
+ public:
   Contact();
   ~Contact();
 
@@ -29,7 +18,7 @@ public:
   void displayLine();
   void displayFull();
 
-private:
+ private:
   std::string prompt(std::string prompt);
   int id_;
   std::string firstName_;
