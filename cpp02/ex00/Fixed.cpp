@@ -13,7 +13,7 @@ Fixed::Fixed(const Fixed &f) {
 
 Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
 
-Fixed &Fixed::operator=(const Fixed &other) {
+Fixed &Fixed::operator=(Fixed const &other) {
   if (this == &other) return *this;
   std::cout << "Copy assignment operator called" << std::endl;
   this->fp_ = other.getRawBits();

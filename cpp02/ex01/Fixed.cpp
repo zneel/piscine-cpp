@@ -17,7 +17,7 @@ Fixed::Fixed(float const f) : fp_(roundf(f * (1 << this->fb_))) {
   std::cout << "Float constructor called" << std::endl;
 }
 
-Fixed::Fixed(const Fixed &f) {
+Fixed::Fixed(Fixed const &f) {
   std::cout << "Copy constructor called" << std::endl;
   *this = f;
 }
