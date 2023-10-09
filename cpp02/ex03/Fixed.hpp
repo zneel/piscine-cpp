@@ -6,8 +6,8 @@ class Fixed {
   Fixed();
   Fixed(int const i);
   Fixed(float const f);
-  Fixed(const Fixed &other);
-  Fixed &operator=(const Fixed &other);
+  Fixed(const Fixed &f);
+  Fixed &operator=(Fixed const &other);
   ~Fixed();
 
   bool operator>(Fixed const &fp) const;
