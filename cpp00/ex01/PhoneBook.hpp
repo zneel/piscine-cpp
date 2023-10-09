@@ -21,9 +21,9 @@ class PhoneBook {
   int current_;
   int max_;
   int total_;
-  void displayHeader();
-  void displayFooter();
-  int promptSearch();
-  int convertToInt(std::string str);
+  void displayHeader_();
+  void displayFooter_();
+  int promptSearch_();
+  int convertToInt_(std::string str);
   Contact contacts_[8];
 };

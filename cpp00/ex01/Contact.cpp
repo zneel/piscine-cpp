@@ -21,7 +21,7 @@ void Contact::setId(int idx) { this->id_ = idx; }
  * @brief
  * Display a line of the contact
  */
-void Contact::displayLine() {
+void Contact::displayLine() const {
   if (this->id_ >= 0) {
     std::string firstName = this->firstName_;
     if (firstName.size() > 10) firstName = firstName.substr(0, 9) + ".";
@@ -40,7 +40,7 @@ void Contact::displayLine() {
  * @brief
  * Display the full contact
  */
-void Contact::displayFull() {
+void Contact::displayFull() const {
   std::cout << "⏵ Index: " << this->id_ << std::endl;
   std::cout << "⏵ Firstname: " << this->firstName_ << std::endl;
   std::cout << "⏵ Lastname: " << this->lastName_ << std::endl;
@@ -56,11 +56,11 @@ void Contact::displayFull() {
  */
 void Contact::add(int idx) {
   this->id_ = idx;
-  this->firstName_ = prompt("Enter the first name: ");
-  this->lastName_ = prompt("Enter the last name: ");
-  this->nickName_ = prompt("Enter the nickname: ");
-  this->darkestSecret_ = prompt("Enter the darkest secret: ");
-  this->phoneNumber_ = prompt("Enter the phone number: ");
+  this->firstName_ = this->prompt_("Enter the first name: ");
+  this->lastName_ = this->prompt_("Enter the last name: ");
+  this->nickName_ = this->prompt_("Enter the nickname: ");
+  this->darkestSecret_ = this->prompt_("Enter the darkest secret: ");
+  this->phoneNumber_ = this->prompt_("Enter the phone number: ");
 }
 
 /**
@@ -69,7 +69,7 @@ void Contact::add(int idx) {
  * @param prompt
  * @return
  */
-std::string Contact::prompt(std::string prompt) {
+std::string Contact::prompt_(std::string prompt) {
   std::string input = "";
   std::cout << prompt << std::endl;
   std::cout << "> ";

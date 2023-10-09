@@ -31,7 +31,7 @@ void PhoneBook::add() {
   if (this->current_ >= this->max_) this->current_ = 0;
 }
 
-int PhoneBook::convertToInt(std::string v) {
+int PhoneBook::convertToInt_(std::string v) {
   int value = 0;
   for (std::string::iterator it = v.begin(); it != v.end(); ++it) {
     if (!std::isdigit(*it)) return -1;
@@ -57,12 +57,12 @@ void PhoneBook::search() {
   std::cout << "└──────────┴──────────┴──────────┴──────────┘" << std::endl;
   int index = -1;
   while (index < 0 || index >= this->max_ || index >= this->total_) {
-    index = promptSearch();
+    index = this->promptSearch_();
   }
   this->contacts_[index].displayFull();
 }
 
-int PhoneBook::promptSearch() {
+int PhoneBook::promptSearch_() {
   std::string input;
   std::cout << "Enter an index: " << std::endl;
   std::cout << "> ";
@@ -72,7 +72,7 @@ int PhoneBook::promptSearch() {
   }
   if (std::cin.bad() || std::cin.eof()) std::exit(0);
 
-  return convertToInt(input);
+  return this->convertToInt_(input);
 }
 
 /**

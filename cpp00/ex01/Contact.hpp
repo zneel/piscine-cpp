@@ -15,11 +15,11 @@ class Contact {
   void setId(int idx);
 
   void add(int idx);
-  void displayLine();
-  void displayFull();
+  void displayLine() const;
+  void displayFull() const;
 
  private:
-  std::string prompt(std::string prompt);
+  std::string prompt_(std::string prompt);
   int id_;
   std::string firstName_;
   std::string lastName_;
