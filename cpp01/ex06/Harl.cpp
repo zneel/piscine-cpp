@@ -14,16 +14,13 @@ void Harl::complain(std::string level) {
   }
   switch (i) {
     case 0:
-      for (int i = 0; i < 4; ++i) (this->*logs[i])();
-      break;
+      (this->*logs[0])();
     case 1:
-      for (int i = 1; i < 4; ++i) (this->*logs[i])();
-      break;
+      (this->*logs[1])();
     case 2:
-      for (int i = 2; i < 4; ++i) (this->*logs[i])();
-      break;
+      (this->*logs[2])();
     case 3:
-      for (int i = 3; i < 4; ++i) (this->*logs[i])();
+      (this->*logs[3])();
       break;
     default:
       std::cout << "[ Probably complaining about insignificant problems ]"
