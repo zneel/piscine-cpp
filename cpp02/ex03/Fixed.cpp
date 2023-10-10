@@ -7,35 +7,19 @@
 
 // Constructors - Destructor
 
-Fixed::Fixed() : fixedPoint_(0 * (1 << this->fractionalBits_)) {
-  std::cout << "Default constructor called with no argument, got "
-            << this->fixedPoint_
-            << ", expecting 0 * (1 << this->fractionalBits_) " << std::endl;
-}
+Fixed::Fixed() : fixedPoint_(0 * (1 << this->fractionalBits_)) {}
 
-Fixed::Fixed(int const i) : fixedPoint_(i * (1 << this->fractionalBits_)) {
-  std::cout << "Integer constructor called with argument " << i << ", got "
-            << this->fixedPoint_ << ", expecting "
-            << i * (1 << this->fractionalBits_) << std::endl;
-}
+Fixed::Fixed(int const i) : fixedPoint_(i * (1 << this->fractionalBits_)) {}
 
 Fixed::Fixed(float const f)
-    : fixedPoint_(roundf(f * (1 << this->fractionalBits_))) {
-  std::cout << "Float constructor called with argument " << f << ", got "
-            << this->fixedPoint_ << ", expecting "
-            << roundf(f * (1 << this->fractionalBits_)) << std::endl;
-}
+    : fixedPoint_(roundf(f * (1 << this->fractionalBits_))) {}
 
-Fixed::Fixed(const Fixed &f) {
-  std::cout << "Copy constructor called" << std::endl;
-  *this = f;
-}
+Fixed::Fixed(Fixed const &f) { *this = f; }
 
-Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
+Fixed::~Fixed() {}
 
 Fixed &Fixed::operator=(Fixed const &other) {
   if (this == &other) return *this;
-  std::cout << "Copy assignment operator called" << std::endl;
   this->fixedPoint_ = other.getRawBits();
   return *this;
 }

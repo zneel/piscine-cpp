@@ -8,7 +8,7 @@ SRCS		:=	main.cpp \
 DEPS		:=	$(SRCS:.cpp=.d)
 OBJS		:=	$(SRCS:.cpp=.o)
 INCS		:= 	Fixed.hpp \
-						Point.hpp
+				Point.hpp
 
 
 $(NAME): $(OBJS)
