@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 class ClapTrap {
  public:
@@ -10,7 +11,7 @@ class ClapTrap {
   ~ClapTrap();
 
   void attack(const std::string &target);
-  void takeDammage(unsigned int amount);
+  void takeDamage(unsigned int amount);
   void beRepaired(unsigned int amount);
 
  private:
