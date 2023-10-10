@@ -1,15 +1,15 @@
-NAME			:=	violence
-CXX				:=	c++
+NAME		:=	violence
+CXX			:=	c++
 CXXFLAGS	:=	-Wall -Wextra -Werror -MMD -std=c++98
-SRCS			:=	main.cpp \
-							Weapon.cpp \
-							HumanA.cpp \
-							HumanB.cpp 
-DEPS			:=	$(SRCS:.cpp=.d)
-OBJS			:=	$(SRCS:.cpp=.o)
-INCS			:= 	Weapon.hpp \
-							HumanA.hpp \
-							HumanB.hpp
+SRCS		:=	main.cpp \
+				Weapon.cpp \
+				HumanA.cpp \
+				HumanB.cpp 
+DEPS		:=	$(SRCS:.cpp=.d)
+OBJS		:=	$(SRCS:.cpp=.o)
+INCS		:= 	Weapon.hpp \
+				HumanA.hpp \
+				HumanB.hpp
 
 
 $(NAME): $(OBJS)

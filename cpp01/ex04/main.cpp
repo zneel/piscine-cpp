@@ -8,16 +8,14 @@
 
 int main(int ac, char** av) {
   if (ac != 4) {
-    std::cout << "sed: ";
-    std::cerr << "Usage: <filename> <str1> <str2>" << std::endl;
+    std::cout << "sed: Usage: <filename> <str1> <str2>" << std::endl;
     return 1;
   }
 
   std::string s1 = av[2];
   std::string s2 = av[3];
-  if (s1.empty() || s2.empty()) {
-    std::cout << "sed: ";
-    std::cerr << "Need strings to replace." << std::endl;
+  if (s1.empty()) {
+    std::cout << "sed: Need strings to replace." << std::endl;
     return 1;
   }
 
@@ -30,14 +28,14 @@ int main(int ac, char** av) {
   inFile.open(av[1], std::ios_base::in);
   if (!inFile.is_open() || !inFile.good()) {
     std::cout << "sed: ";
-    std::cerr << av[1] << ": " << std::strerror(errno) << std::endl;
+    std::cout << av[1] << ": " << std::strerror(errno) << std::endl;
     return 1;
   }
 
   outFile.open(out.c_str(), std::ios_base::out);
   if (!outFile.is_open() || !outFile.good()) {
     std::cout << "sed: ";
-    std::cerr << out << ": " << std::strerror(errno) << std::endl;
+    std::cout << out << ": " << std::strerror(errno) << std::endl;
     return 1;
   }
 
@@ -48,10 +46,7 @@ int main(int ac, char** av) {
       line.insert(position, s2);
       position = line.find(s1, position + s2.length());
     }
-    outFile << line;
-    if (!inFile.eof()) {
-      outFile << std::endl;
-    }
+    outFile << line << std::endl;
   }
   inFile.close();
   outFile.close();

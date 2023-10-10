@@ -7,7 +7,7 @@ HumanB::HumanB(std::string name) {
 }
 
 HumanB::~HumanB() { std::cout << "HumanB destructor called" << std::endl; }
-void HumanB::attack() {
+void HumanB::attack() const {
   if (this->weapon_) {
     std::cout << this->name_ << " attacks with their "
               << this->weapon_->getType() << std::endl;

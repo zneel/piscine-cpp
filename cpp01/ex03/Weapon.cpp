@@ -7,5 +7,5 @@ Weapon::Weapon(std::string type) : type_(type) {
 Weapon::~Weapon() {
   std::cout << "Weapon " << this->type_ << " destructor called" << std::endl;
 }
-const std::string &Weapon::getType() { return type_; }
+std::string const& Weapon::getType() const { return this->type_; }
 void Weapon::setType(std::string type) { this->type_ = type; }

@@ -10,7 +10,5 @@ int main() {
   logger.complain("WARNING");
   std::cout << "ERROR LEVEL:" << std::endl;
   logger.complain("ERROR");
-  std::cout << "UNKNOWN LEVEL:" << std::endl;
-  logger.complain("toto");
   return 0;
 }
