@@ -33,6 +33,7 @@ void PhoneBook::add() {
 
 int PhoneBook::convertToInt_(std::string v) {
   int value = 0;
+  if (v.empty()) return -1;
   for (std::string::iterator it = v.begin(); it != v.end(); ++it) {
     if (!std::isdigit(*it)) return -1;
     value = value * 10 + (*it - '0');
@@ -56,20 +57,21 @@ void PhoneBook::search() {
   for (int i = 0; i < this->max_; ++i) this->contacts_[i].displayLine();
   std::cout << "└──────────┴──────────┴──────────┴──────────┘" << std::endl;
   int index = -1;
+  std::cout << "Enter an index: " << std::endl;
+  std::cout << "> ";
   while (index < 0 || index >= this->max_ || index >= this->total_) {
     index = this->promptSearch_();
+    if (index < 0 || index >= this->max_ || index >= this->total_) {
+      std::cout << "Wrong input" << std::endl;
+      std::cout << "> ";
+    }
   }
   this->contacts_[index].displayFull();
 }
 
 int PhoneBook::promptSearch_() {
   std::string input;
-  std::cout << "Enter an index: " << std::endl;
-  std::cout << "> ";
-  while (std::getline(std::cin, input) && (input.empty() || input.size() > 1)) {
-    std::cout << "Enter an index: " << std::endl;
-    std::cout << "> ";
-  }
+  std::getline(std::cin, input);
   if (std::cin.bad() || std::cin.eof()) std::exit(0);
 
   return this->convertToInt_(input);
