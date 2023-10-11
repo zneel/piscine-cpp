@@ -1,7 +1,5 @@
 #include "Fixed.hpp"
 
-
-
 // Constructors - Destructor
 
 Fixed::Fixed() : fixedPoint_(0 * (1 << this->fractionalBits_)) {}
@@ -11,13 +9,13 @@ Fixed::Fixed(int const i) : fixedPoint_(i * (1 << this->fractionalBits_)) {}
 Fixed::Fixed(float const f)
     : fixedPoint_(roundf(f * (1 << this->fractionalBits_))) {}
 
-Fixed::Fixed(Fixed const &other) : fixedPoint_(other.getRawBits()) {}
+Fixed::Fixed(Fixed const &other) : fixedPoint_(other.fixedPoint_) {}
 
 Fixed::~Fixed() {}
 
 Fixed &Fixed::operator=(Fixed const &other) {
   if (this == &other) return *this;
-  this->fixedPoint_ = other.getRawBits();
+  this->fixedPoint_ = other.fixedPoint_;
   return *this;
 }
 
