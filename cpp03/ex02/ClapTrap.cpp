@@ -4,10 +4,14 @@ ClapTrap::ClapTrap() : name_(""), hp_(10), energy_(10), atk_(0) {
   std::cout << "ClapTrap Default constructor called" << std::endl;
 }
 
-ClapTrap::ClapTrap(std::string name)
-    : name_(name), hp_(10), energy_(10), atk_(0) {
+ClapTrap::ClapTrap(std::string name) : name_(name) {
   std::cout << "ClapTrap Param constructor called" << std::endl;
-};
+}
+
+ClapTrap::ClapTrap(std::string name, int hp, int energy, int attack)
+    : name_(name), hp_(hp), energy_(energy), atk_(attack) {
+  std::cout << "ClapTrap Param constructor called" << std::endl;
+}
 
 ClapTrap::ClapTrap(ClapTrap const &other)
     : name_(other.name_),
@@ -51,5 +55,5 @@ void ClapTrap::beRepaired(unsigned int amount) {
   std::cout << "ClapTrap " << this->name_ << " repaired for " << amount
             << " hit points" << std::endl;
   this->energy_--;
-  this->hp_++;
+  this->hp_ += amount;
 }

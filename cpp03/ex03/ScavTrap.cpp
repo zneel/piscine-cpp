@@ -2,11 +2,11 @@
 
 #include "ClapTrap.hpp"
 
-ScavTrap::ScavTrap() : ClapTrap() {
+ScavTrap::ScavTrap() : ClapTrap("") {
   std::cout << "ScavTrap Default constructor called" << std::endl;
 }
 
-ScavTrap::ScavTrap(std::string const name) : ClapTrap("ScavTrap", 100, 50, 20) {
+ScavTrap::ScavTrap(std::string const name) : ClapTrap(name) {
   std::cout << "ScavTrap Parameter constructor called" << std::endl;
   this->name_ = name;
   this->hp_ = 100;
