@@ -8,22 +8,16 @@
 // Constructors - Destructor
 
 Fixed::Fixed() : fixedPoint_(0 * (1 << this->fractionalBits_)) {
-  std::cout << "Default constructor called with no argument, got "
-            << this->fixedPoint_
-            << ", expecting 0 * (1 << this->fractionalBits_) " << std::endl;
+  std::cout << "Default constructor called" << std::endl;
 }
 
 Fixed::Fixed(int const i) : fixedPoint_(i * (1 << this->fractionalBits_)) {
-  std::cout << "Integer constructor called with argument " << i << ", got "
-            << this->fixedPoint_ << ", expecting "
-            << i * (1 << this->fractionalBits_) << std::endl;
+  std::cout << "Integer constructor called with argument " << i << std::endl;
 }
 
 Fixed::Fixed(float const f)
     : fixedPoint_(roundf(f * (1 << this->fractionalBits_))) {
-  std::cout << "Float constructor called with argument " << f << ", got "
-            << this->fixedPoint_ << ", expecting "
-            << roundf(f * (1 << this->fractionalBits_)) << std::endl;
+  std::cout << "Float constructor called with argument " << f << std::endl;
 }
 
 Fixed::Fixed(Fixed const &other) : fixedPoint_(other.getRawBits()) {
@@ -97,6 +91,7 @@ Fixed Fixed::operator/(Fixed const &fp) {
 
 // Increment - decrement operators
 
+// Prefix
 Fixed &Fixed::operator++() {
   this->fixedPoint_ += 1;
   return *this;
@@ -107,18 +102,19 @@ Fixed &Fixed::operator--() {
   return *this;
 }
 
+// Postfix
 Fixed Fixed::operator++(int) {
   Fixed tmp = *this;
   this->fixedPoint_ += 1;
   return tmp;
 }
-
 Fixed Fixed::operator--(int) {
   Fixed tmp = *this;
   this->fixedPoint_ -= 1;
   return tmp;
 }
 
+// Min - Max functions
 Fixed &Fixed::min(Fixed &a, Fixed &b) { return a > b ? b : a; }
 Fixed const &Fixed::min(Fixed const &a, Fixed const &b) {
   return a > b ? b : a;
@@ -128,6 +124,7 @@ Fixed const &Fixed::max(Fixed const &a, Fixed const &b) {
   return a > b ? a : b;
 }
 
+// Output stream operator
 std::ostream &operator<<(std::ostream &os, Fixed const &fp) {
   os << fp.toFloat();
   return os;
