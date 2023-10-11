@@ -8,13 +8,15 @@ int main(void) {
   Fixed const c(42.42f);
   Fixed const d(b);
   a = Fixed(1234.4321f);
+
+  // Test << operator
   std::cout << "a is " << a << std::endl;
-  std::cout << "b is " << b << std::endl;
-  std::cout << "c is " << c << std::endl;
-  std::cout << "d is " << d << std::endl;
+
+  // Test fixed-point value to integer value
   std::cout << "a is " << a.toInt() << " as integer" << std::endl;
-  std::cout << "b is " << b.toInt() << " as integer" << std::endl;
-  std::cout << "c is " << c.toInt() << " as integer" << std::endl;
-  std::cout << "d is " << d.toInt() << " as integer" << std::endl;
+
+  // Test fixed-point value to floating point value
+  std::cout << "a is " << a.toFloat() << " as floating point" << std::endl;
+
   return 0;
 }
