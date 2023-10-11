@@ -6,7 +6,7 @@ float my_abs(float const f) { return f < 0 ? -f : f; }
 
 // https://flexbooks.ck12.org/cbook/ck-12-cbse-math-class-10/section/7.4/primary/lesson/references-for-advanced-understanding/
 float area(Point const a, Point const b, Point const c) {
-  return (.5f *
+  return (0.5f *
           (a.getX().toFloat() * (b.getY().toFloat() - c.getY().toFloat()) +
            b.getX().toFloat() * (c.getY().toFloat() - a.getY().toFloat()) +
            c.getX().toFloat() * (a.getY().toFloat() - b.getY().toFloat())));
