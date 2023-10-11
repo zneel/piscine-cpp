@@ -26,12 +26,9 @@ Fixed::Fixed(float const f)
             << roundf(f * (1 << this->fractionalBits_)) << std::endl;
 }
 
-Fixed::Fixed(const Fixed &f) {
+Fixed::Fixed(Fixed const &other) : fixedPoint_(other.getRawBits()) {
   std::cout << "Copy constructor called" << std::endl;
-  *this = f;
 }
-
-Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
 
 Fixed &Fixed::operator=(const Fixed &other) {
   if (this == &other) return *this;
@@ -39,6 +36,8 @@ Fixed &Fixed::operator=(const Fixed &other) {
   this->fixedPoint_ = other.getRawBits();
   return *this;
 }
+
+Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
 
 // Setters - getters
 

@@ -1,17 +1,13 @@
 #include "Fixed.hpp"
 
-#include <iostream>
 
 Fixed::Fixed() : fp_(0) {
   std::cout << "Default constructor called" << std::endl;
 }
 
-Fixed::Fixed(const Fixed &f) {
+Fixed::Fixed(const Fixed &other) : fp_(other.getRawBits()) {
   std::cout << "Copy constructor called" << std::endl;
-  *this = f;
 }
-
-Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
 
 Fixed &Fixed::operator=(Fixed const &other) {
   if (this == &other) return *this;
@@ -19,6 +15,8 @@ Fixed &Fixed::operator=(Fixed const &other) {
   this->fp_ = other.getRawBits();
   return *this;
 }
+
+Fixed::~Fixed() { std::cout << "Destructor called" << std::endl; }
 
 int Fixed::getRawBits() const {
   std::cout << "getRawBits member function called" << std::endl;

@@ -1,6 +1,10 @@
 #pragma once
 
+#include <cmath>
+#include <iostream>
 #include <ostream>
+#include <sstream>
+
 class Fixed {
  public:
   Fixed();

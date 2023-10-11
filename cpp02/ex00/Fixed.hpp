@@ -1,11 +1,12 @@
 #pragma once
+#include <iostream>
 
 class Fixed {
  public:
   Fixed();
-  Fixed(const Fixed &f);
-  ~Fixed();
+  Fixed(const Fixed &other);
   Fixed &operator=(Fixed const &other);
+  ~Fixed();
 
   int getRawBits() const;
   void setRawBits(int const raw);
