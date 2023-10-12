@@ -6,14 +6,14 @@ int main() {
   ClapTrap ct3;
   ct3 = ct1;
 
-  ct1.attack("TR4P");
-  ct1.takeDamage(9);
-  ct1.beRepaired(10);
-  ct1.takeDamage(9);
-  ct1.takeDamage(9);
-  ct1.beRepaired(9);
-  ct1.takeDamage(10);
-  ct1.attack("TR4P");
+  ct3.attack("TR4P");
+  ct3.takeDamage(9);
+  ct3.beRepaired(10);
+  ct3.takeDamage(9);
+  ct3.takeDamage(9);
+  ct3.beRepaired(9);
+  ct3.takeDamage(10);
+  ct3.attack("TR4P");
 
   return 0;
 }
