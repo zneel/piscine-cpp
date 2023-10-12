@@ -2,6 +2,7 @@
 
 #include "ClapTrap.hpp"
 
+// Constructors and destructors ================================================
 FragTrap::FragTrap() : ClapTrap() {
   this->name_ = "Default";
   this->hp_ = 100;
@@ -43,7 +44,7 @@ FragTrap &FragTrap::operator=(FragTrap const &other) {
 FragTrap::~FragTrap() {
   std::cout << "FragTrap " << this->name_ << " destructor called" << std::endl;
 }
-
+// Member functions ============================================================
 void FragTrap::highFivesGuys() {
   std::cout << "FragTrap " << this->name_ << " says: HIGH FIVE GUYS!"
             << std::endl;
