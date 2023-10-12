@@ -1,6 +1,7 @@
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap() : name_("Default") {
+// Constructor - Destructor ====================================================
+ClapTrap::ClapTrap() : name_("Default"), hp_(10), energy_(10), atk_(0) {
   std::cout << "ClapTrap " << this->name_ << " default constructor called"
             << std::endl;
 }
@@ -35,6 +36,12 @@ ClapTrap::~ClapTrap() {
   std::cout << "ClapTrap " << this->name_ << " destructor called" << std::endl;
 }
 
+// Member functions ============================================================
+/**
+ * @brief Attack a target
+ *
+ * @param target
+ */
 void ClapTrap::attack(const std::string &target) {
   if (this->energy_ <= 0 || this->hp_ <= 0) {
     std::cout << "ClapTrap " << this->name_ << " is dead or exhausted"
@@ -47,6 +54,11 @@ void ClapTrap::attack(const std::string &target) {
             << this->energy_ << " energy" << std::endl;
 }
 
+/**
+ * @brief Take damage
+ *
+ * @param amount
+ */
 void ClapTrap::takeDamage(unsigned int amount) {
   if (this->hp_ <= 0) {
     std::cout << "ClapTrap " << this->name_ << " is dead" << std::endl;
@@ -60,6 +72,11 @@ void ClapTrap::takeDamage(unsigned int amount) {
             << std::endl;
 }
 
+/**
+ * @brief Repair hit points
+ *
+ * @param amount
+ */
 void ClapTrap::beRepaired(unsigned int amount) {
   if (this->energy_ <= 0 || this->hp_ <= 0) return;
   this->energy_--;
