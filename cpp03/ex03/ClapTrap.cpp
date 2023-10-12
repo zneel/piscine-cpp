@@ -26,7 +26,7 @@ ClapTrap &ClapTrap::operator=(ClapTrap const &other) {
   this->hp_ = other.hp_;
   this->energy_ = other.energy_;
   this->atk_ = other.atk_;
-  std::cout << "ClapTrap " << this->name_ << " assignment constructor called"
+  std::cout << "ClapTrap " << this->name_ << " assignment operator called"
             << std::endl;
   return *this;
 }

@@ -4,6 +4,9 @@
 
 ScavTrap::ScavTrap() : ClapTrap() {
   this->name_ = "Default";
+  this->hp_ = 100;
+  this->energy_ = 50;
+  this->atk_ = 20;
   std::cout << "ScavTrap Default constructor called" << std::endl;
 }
 
@@ -17,8 +20,8 @@ ScavTrap::ScavTrap(std::string const name) : ClapTrap(name) {
 }
 
 ScavTrap::ScavTrap(ScavTrap const &other) : ClapTrap(other) {
-  this->hp_ = other.hp_;
   this->name_ = other.name_;
+  this->hp_ = other.hp_;
   this->energy_ = other.energy_;
   this->atk_ = other.atk_;
   std::cout << "ScavTrap " << this->name_ << " copy constructor called"
@@ -27,11 +30,11 @@ ScavTrap::ScavTrap(ScavTrap const &other) : ClapTrap(other) {
 
 ScavTrap &ScavTrap::operator=(ScavTrap const &other) {
   if (this == &other) return *this;
-  this->hp_ = other.hp_;
   this->name_ = other.name_;
+  this->hp_ = other.hp_;
   this->energy_ = other.energy_;
   this->atk_ = other.atk_;
-  std::cout << "ScavTrap " << this->name_ << " assignement operator called"
+  std::cout << "ScavTrap " << this->name_ << " assignment operator called"
             << std::endl;
   return *this;
 }
