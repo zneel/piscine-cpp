@@ -2,8 +2,7 @@
 
 // Constructor - Destructor ====================================================
 ClapTrap::ClapTrap() : name_("Default"), hp_(10), energy_(10), atk_(0) {
-  std::cout << "ClapTrap " << this->name_ << " default constructor called"
-            << std::endl;
+  std::cout << "ClapTrap " << this->name_ << " constructor called" << std::endl;
 }
 
 ClapTrap::ClapTrap(std::string name)
