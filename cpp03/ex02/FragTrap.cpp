@@ -2,8 +2,13 @@
 
 #include "ClapTrap.hpp"
 
-FragTrap::FragTrap() {
-  std::cout << "FragTrap default constructor called" << std::endl;
+FragTrap::FragTrap() : ClapTrap() {
+  this->name_ = "Default";
+  this->hp_ = 100;
+  this->energy_ = 100;
+  this->atk_ = 30;
+  std::cout << "FragTrap " << this->name_ << " default constructor called"
+            << std::endl;
 }
 
 FragTrap::FragTrap(std::string const name) : ClapTrap(name) {
@@ -15,10 +20,13 @@ FragTrap::FragTrap(std::string const name) : ClapTrap(name) {
             << std::endl;
 }
 
-FragTrap::FragTrap(FragTrap const &other) {
+FragTrap::FragTrap(FragTrap const &other) : ClapTrap(other) {
+  this->name_ = other.name_;
+  this->hp_ = other.hp_;
+  this->energy_ = other.energy_;
+  this->atk_ = other.atk_;
   std::cout << "FragTrap " << this->name_ << " copy constructor called"
             << std::endl;
-  *this = other;
 }
 
 FragTrap &FragTrap::operator=(FragTrap const &other) {
