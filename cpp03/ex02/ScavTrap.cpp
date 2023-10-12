@@ -7,7 +7,7 @@ ScavTrap::ScavTrap() : ClapTrap("") {
 }
 
 ScavTrap::ScavTrap(std::string const name) : ClapTrap(name) {
-  std::cout << "ScavTrap Parameter constructor called" << std::endl;
+  std::cout << "ScavTrap parameter constructor called" << std::endl;
   this->name_ = name;
   this->hp_ = 100;
   this->energy_ = 50;
