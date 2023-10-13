@@ -3,15 +3,13 @@ CXX			:=	c++
 CXXFLAGS	:=	-Wall -Wextra -Werror -MMD -std=c++98
 SRCS		:=	main.cpp \
 						Animal.cpp \
-						WrongAnimal.cpp \
-						WrongCat.cpp \
+						Brain.cpp \
 						Cat.cpp \
 						Dog.cpp
 DEPS		:=	$(SRCS:.cpp=.d)
 OBJS		:=	$(SRCS:.cpp=.o)
 INCS		:= 	Animal.hpp \
-						WrongAnimal.hpp \
-						WrongCat.hpp \
+						Brain.hpp \
 						Cat.hpp \
 						Dog.hpp
 

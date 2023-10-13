@@ -3,16 +3,16 @@
 #include <iostream>
 #include <string>
 
-class Animal {
+class WrongAnimal {
  public:
-  Animal();
-  virtual ~Animal();
-  Animal(Animal const&);
-  Animal& operator=(Animal const&);
+  WrongAnimal();
+  ~WrongAnimal();
+  WrongAnimal(WrongAnimal const&);
+  WrongAnimal& operator=(WrongAnimal const&);
 
   std::string getType() const;
   void setType(std::string type);
-  virtual void makeSound() const;
+  void makeSound() const;
 
  protected:
   std::string type;
