@@ -10,6 +10,7 @@ class Dog : public Animal {
   Dog &operator=(Dog const &);
   ~Dog();
   void makeSound() const;
+  void getBrainAddr() const;
 
  private:
   Brain *brain_;

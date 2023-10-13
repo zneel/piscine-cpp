@@ -1,31 +1,29 @@
 #include "Dog.hpp"
 
 #include "Animal.hpp"
-#include "Brain.hpp"
 
-Dog::Dog() : Animal() {
+Dog::Dog() : Animal("Dog"), brain_(new Brain()) {
   std::cout << "Dog constructor called" << std::endl;
-  this->setType("Dog");
-  this->brain_ = new Brain();
 }
 
-Dog::Dog(Dog const &other) : Animal(other) {
-  this->brain_ = new Brain(*other.brain_);
-  this->setType(other.type);
+Dog::Dog(Dog const &other) : Animal(other), brain_(new Brain(*other.brain_)) {
   std::cout << "Dog copy constructor called" << std::endl;
 }
 
 Dog &Dog::operator=(Dog const &rhs) {
-  if (this == &rhs) return *this;
-  Animal::operator=(rhs);
-  this->brain_ = new Brain(*rhs.brain_);
-  this->setType(rhs.type);
+  if (this != &rhs) {
+    Animal::operator=(rhs);
+    delete this->brain_;
+    this->brain_ = new Brain(*rhs.brain_);
+  }
   std::cout << "Dog assignment operator called" << std::endl;
   return *this;
 }
 
 void Dog::makeSound() const { std::cout << "Dog barks" << std::endl; }
-
+void Dog::getBrainAddr() const {
+  std::cout << "Brain address: " << &this->brain_ << std::endl;
+}
 Dog::~Dog() {
   delete this->brain_;
   std::cout << "Dog destructor called" << std::endl;
