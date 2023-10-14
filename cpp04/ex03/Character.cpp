@@ -13,14 +13,24 @@ Character::~Character() {
 }
 
 Character::Character(Character const &other) : name_(other.name_) {
-  for (int i = 0; i < 4; ++i) this->inventory_[i] = other.inventory_[i];
+  for (int i = 0; i < 4; ++i) {
+    if (other.inventory_[i])
+      this->inventory_[i] = other.inventory_[i]->clone();
+    else
+      this->inventory_[i] = 0;
+  }
   std::cout << "Character copy constructor called" << std::endl;
 }
 
 Character &Character::operator=(Character const &rhs) {
   if (this != &rhs) {
     this->name_ = rhs.getName();
-    for (int i = 0; i < 4; ++i) this->inventory_[i] = rhs.inventory_[i];
+    for (int i = 0; i < 4; ++i) {
+      if (rhs.inventory_[i])
+        this->inventory_[i] = rhs.inventory_[i]->clone();
+      else
+        this->inventory_[i] = 0;
+    }
   }
   std::cout << "Character assignment operator called" << std::endl;
   return *this;
@@ -30,13 +40,13 @@ std::string const &Character::getName() const { return this->name_; }
 
 void Character::equip(AMateria *m) {
   for (int i = 0; i < 4; ++i) {
-    if (this->inventory_[i] == 0) {
+    if (!this->inventory_[i]) {
       this->inventory_[i] = m;
       std::cout << "Equiped in slot: " << i << std::endl;
       return;
     }
   }
-
+  delete m;
   std::cout << "Equipment full" << std::endl;
 }
 

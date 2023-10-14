@@ -1,6 +1,6 @@
 NAME        :=  a.out
 CXX         :=  c++
-CXXFLAGS    :=  -Wall -Wextra -Werror -MMD -std=c++11
+CXXFLAGS    :=  -Wall -Wextra -Werror -MMD -std=c++98 -g3
 SRCS        :=  main.cpp \
                 AMateria.cpp \
                 Character.cpp \
