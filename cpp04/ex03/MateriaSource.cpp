@@ -12,14 +12,18 @@ MateriaSource::~MateriaSource() {
   std::cout << "MateriaSource destructor called" << std::endl;
 }
 
-MateriaSource::MateriaSource(MateriaSource const &other) {
-  for (int i = 0; i < 4; ++i) this->materias_[i] = other.materias_[i];
+MateriaSource::MateriaSource(MateriaSource const &o) {
+  for (int i = 0; i < 4; ++i) {
+    this->materias_[i] = o.materias_[i] ? o.materias_[i]->clone() : 0;
+  }
   std::cout << "MateriaSource copy constructor called" << std::endl;
 }
 
 MateriaSource &MateriaSource::operator=(MateriaSource const &rhs) {
   if (this != &rhs) {
-    for (int i = 0; i < 4; ++i) this->materias_[i] = rhs.materias_[i]->clone();
+    for (int i = 0; i < 4; ++i) {
+      this->materias_[i] = rhs.materias_[i] ? rhs.materias_[i]->clone() : 0;
+    }
   }
   std::cout << "MateriaSource assignment operator called" << std::endl;
   return *this;

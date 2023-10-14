@@ -12,12 +12,9 @@ Character::~Character() {
   std::cout << "Character destructor called" << std::endl;
 }
 
-Character::Character(Character const &other) : name_(other.name_) {
+Character::Character(Character const &o) : name_(o.name_) {
   for (int i = 0; i < 4; ++i) {
-    if (other.inventory_[i])
-      this->inventory_[i] = other.inventory_[i]->clone();
-    else
-      this->inventory_[i] = 0;
+    this->inventory_[i] = o.inventory_[i] ? o.inventory_[i]->clone() : 0;
   }
   std::cout << "Character copy constructor called" << std::endl;
 }
@@ -26,10 +23,7 @@ Character &Character::operator=(Character const &rhs) {
   if (this != &rhs) {
     this->name_ = rhs.getName();
     for (int i = 0; i < 4; ++i) {
-      if (rhs.inventory_[i])
-        this->inventory_[i] = rhs.inventory_[i]->clone();
-      else
-        this->inventory_[i] = 0;
+      this->inventory_[i] = rhs.inventory_[i] ? rhs.inventory_[i]->clone() : 0;
     }
   }
   std::cout << "Character assignment operator called" << std::endl;

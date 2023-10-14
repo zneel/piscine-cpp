@@ -6,8 +6,8 @@
 int main() {
   // Test default constructors
   IMateriaSource* src = new MateriaSource();
-  ICharacter* me = new Character("me");
-  ICharacter* bob = new Character("bob");
+  ICharacter* me = new Character("MEEEEEEEEEEEEEEEEEEEEEEEEEE");
+  ICharacter* bob = new Character("BOOOOOOOOOOOOOOOOOOOOOOOB");
 
   // Test learning and creating materia
   src->learnMateria(new Ice());
@@ -22,22 +22,32 @@ int main() {
   me->equip(tmpCure);
   me->use(1, *bob);
 
-  // Test copy constructor
+  // Test Character copy constructor
   ICharacter* copyOfMe = new Character(*static_cast<Character*>(me));
-  std::cout << copyOfMe->getName() << ": ";
   copyOfMe->use(0, *bob);
-  std::cout << copyOfMe->getName() << ": ";
   copyOfMe->use(1, *bob);
 
-  // Test assignment operator
+  // Test Character assignment operator
   ICharacter* assignee = new Character("assignee");
   *static_cast<Character*>(assignee) = *static_cast<Character*>(me);
-  std::cout << assignee->getName() << ": ";
   assignee->use(0, *bob);
-  std::cout << assignee->getName() << ": ";
   assignee->use(1, *bob);
 
+  // Test MateriaSource copy constructor
+  IMateriaSource* copyOfSrc =
+      new MateriaSource(*static_cast<MateriaSource*>(src));
+  AMateria* copiedTmpIce = copyOfSrc->createMateria("ice");
+  me->equip(copiedTmpIce);
+
+  // Test MateriaSource assignment operator
+  IMateriaSource* assigneeSrc = new MateriaSource();
+  *static_cast<MateriaSource*>(assigneeSrc) = *static_cast<MateriaSource*>(src);
+  AMateria* assignedTmpCure = assigneeSrc->createMateria("cure");
+  me->equip(assignedTmpCure);
+
   // Cleanup and test destructor
+  delete assigneeSrc;
+  delete copyOfSrc;
   delete assignee;
   delete copyOfMe;
   delete bob;
