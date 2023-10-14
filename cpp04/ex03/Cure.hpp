@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AMateria.hpp"
+
 class Cure : public AMateria {
  public:
   Cure();
@@ -8,5 +9,6 @@ class Cure : public AMateria {
   Cure(Cure const &);
   Cure &operator=(Cure const &);
 
-  AMateria *clone();
+  AMateria *clone() const;
+  void use(ICharacter &);
 };

@@ -1,27 +1,23 @@
-NAME		:=	a.out
-CXX			:=	c++
-CXXFLAGS	:=	-Wall -Wextra -Werror -MMD -std=c++98
-SRCS		:=	main.cpp \
-						AMatria.cpp \
-						ICharacter.cpp \
-						Ice.cpp \
-						Cure.cpp
-DEPS		:=	$(SRCS:.cpp=.d)
-OBJS		:=	$(SRCS:.cpp=.o)
-INCS		:= 	AMatria.hpp \
-						ICharacter.hpp \
-						Ice.hpp \
-						Cure.hpp
+NAME        :=  a.out
+CXX         :=  c++
+CXXFLAGS    :=  -Wall -Wextra -Werror -MMD -std=c++11
+SRCS        :=  main.cpp \
+                AMateria.cpp \
+                Character.cpp \
+                Cure.cpp \
+                Ice.cpp \
+                MateriaSource.cpp
 
+DEPS        :=  $(SRCS:.cpp=.d)
+OBJS        :=  $(SRCS:.cpp=.o)
+
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-all: $(NAME)
-$(OBJS): $(SRCS) $(INCS)
 
 clean:
 	rm -f $(OBJS)
