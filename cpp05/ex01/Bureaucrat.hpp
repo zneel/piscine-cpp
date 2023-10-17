@@ -4,6 +4,10 @@
 #include <ostream>
 #include <string>
 
+#include "Form.hpp"
+
+class Form;
+
 class Bureaucrat {
  public:
   Bureaucrat(std::string name, int grade);
@@ -11,8 +15,12 @@ class Bureaucrat {
   Bureaucrat &operator=(Bureaucrat const &);
   Bureaucrat(Bureaucrat const &);
 
+  static const int high = 1;
+  static const int low = 150;
+
   std::string getName() const;
   int getGrade() const;
+  void signForm(Form &f) const;
 
   Bureaucrat &operator--();
   Bureaucrat &operator++();
@@ -30,8 +38,6 @@ class Bureaucrat {
 
   std::string const name_;
   int grade_;
-  int high_;
-  int low_;
 };
 
 std::ostream &operator<<(std::ostream &os, Bureaucrat const &b);

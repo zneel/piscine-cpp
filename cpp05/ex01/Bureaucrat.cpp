@@ -1,20 +1,26 @@
 #include "Bureaucrat.hpp"
 
+#include <exception>
+#include <iostream>
+
+#include "Form.hpp"
+
 Bureaucrat::Bureaucrat(std::string name, int grade)
-    : name_(name), grade_(grade), high_(1), low_(150) {
-  if (grade_ < high_) throw Bureaucrat::GradeTooHighException();
-  if (grade_ > low_) throw Bureaucrat::GradeTooLowException();
+    : name_(name), grade_(grade) {
+  if (grade_ < high) throw Bureaucrat::GradeTooHighException();
+  if (grade_ > low) throw Bureaucrat::GradeTooLowException();
 }
 
 Bureaucrat::~Bureaucrat() {}
 
 Bureaucrat::Bureaucrat(Bureaucrat const &other)
-    : name_(other.name_), grade_(other.grade_), high_(1), low_(150) {}
+    : name_(other.name_), grade_(other.grade_) {}
 
 Bureaucrat &Bureaucrat::operator=(Bureaucrat const &rhs) {
   if (this != &rhs) {
     grade_ = rhs.grade_;
   }
+
   return *this;
 }
 
@@ -22,24 +28,35 @@ std::string Bureaucrat::getName() const { return name_; }
 
 int Bureaucrat::getGrade() const { return grade_; }
 
+void Bureaucrat::signForm(Form &f) const {
+  try {
+    if (f.getSigned()) return;
+    f.beSigned(*this);
+    std::cout << name_ << " signed " << f.getName() << std::endl;
+  } catch (std::exception &e) {
+    std::cout << name_ << " couldn't sign " << f.getName() << " because "
+              << e.what() << "." << std::endl;
+  }
+}
+
 Bureaucrat &Bureaucrat::operator--() {
-  if (grade_ + 1 > low_) throw Bureaucrat::GradeTooLowException();
+  if (grade_ + 1 > low) throw Bureaucrat::GradeTooLowException();
   ++grade_;
   return *this;
 }
 
 Bureaucrat &Bureaucrat::operator++() {
-  if (grade_ - 1 < high_) throw Bureaucrat::GradeTooHighException();
+  if (grade_ - 1 < high) throw Bureaucrat::GradeTooHighException();
   --grade_;
   return *this;
 }
 
 const char *Bureaucrat::GradeTooHighException::what() const throw() {
-  return "Bureaucrat grade is too high";
+  return "Grade is too high";
 }
 
 const char *Bureaucrat::GradeTooLowException::what() const throw() {
-  return "Bureaucrat grade is too low";
+  return "Grade is too low";
 }
 
 std::ostream &operator<<(std::ostream &os, Bureaucrat const &b) {
