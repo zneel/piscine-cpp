@@ -1,4 +1,5 @@
 #include "ScalarConverter.hpp"
+#include <cctype>
 #include <iostream>
 #include <iterator>
 
@@ -78,18 +79,13 @@ void ScalarConverter::convert(std::string const str)
 
 void ScalarConverter::toChar(std::string const str)
 {
-    if (str.size() == 1)
-    {
-        if (!std::isprint(str[0]))
-            throw ScalarConverter::NonDisplayableException();
-        std::cout << "char: '" << str[0] << "'" << std::endl;
-        return;
-    }
     double d = std::strtod(str.c_str(), NULL);
+    if (errno == ERANGE)
+        throw ScalarConverter::ImpossibleConversionException();
     if (static_cast<int>(d) >= 32 && static_cast<int>(d) <= 126)
         std::cout << "char: '" << static_cast<char>(d) << "'" << std::endl;
     else
-        throw ScalarConverter::ImpossibleConversionException();
+        throw ScalarConverter::NonDisplayableException();
 }
 
 void ScalarConverter::toInt(std::string const str)
@@ -98,11 +94,6 @@ void ScalarConverter::toInt(std::string const str)
         str.compare("+inf") == 0 || str.compare("+inff") == 0 || str.compare("-inf") == 0 || str.compare("-inff") == 0)
         throw ScalarConverter::ImpossibleConversionException();
     char *rest;
-    if (str.size() == 1)
-    {
-        std::cout << "int: " << static_cast<int>(str[0]) << std::endl;
-        return;
-    }
     if (str[0] != '+' && str[0] != '-' && !std::isdigit(str[0]))
         throw ScalarConverter::ImpossibleConversionException();
     long d = std::strtol(str.c_str(), &rest, 10);
@@ -136,13 +127,6 @@ void ScalarConverter::toFloat(std::string const str)
     int precision = getPrecision(str);
     if (precision == 0)
         precision = 1;
-    if (str.size() == 1)
-    {
-        std::stringstream ss;
-        ss << std::fixed << std::setprecision(precision) << static_cast<float>(str[0]);
-        std::cout << "float: " << ss.str() << "f" << std::endl;
-        return;
-    }
     double f = std::strtod(str.c_str(), &rest);
     if (errno == ERANGE)
         throw ScalarConverter::ImpossibleConversionException();
@@ -170,13 +154,6 @@ void ScalarConverter::toDouble(std::string const str)
     int precision = getPrecision(str);
     if (precision == 0)
         precision = 1;
-    if (str.size() == 1)
-    {
-        std::stringstream ss;
-        ss << std::fixed << std::setprecision(precision) << static_cast<float>(str[0]);
-        std::cout << "double: " << ss.str() << std::endl;
-        return;
-    }
     double d = std::strtod(str.c_str(), &rest);
     if (errno == ERANGE)
         throw ScalarConverter::ImpossibleConversionException();
