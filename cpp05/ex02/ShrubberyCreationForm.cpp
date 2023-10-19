@@ -28,7 +28,7 @@ void ShrubberyCreationForm::execute(Bureaucrat const &executor) const
 {
     if (!getSigned())
         throw AForm::NotSignedException();
-    if (executor.getGrade() >= getGradeRequiredToExec())
+    if (executor.getGrade() > getGradeRequiredToExec())
         throw AForm::GradeTooLowException();
     std::string tree_;
     tree_ += "                   ,@@@@@@@,\n";
