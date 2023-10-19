@@ -3,7 +3,8 @@
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : AForm("Shrubbery", 145, 137), target_(target)
+ShrubberyCreationForm::ShrubberyCreationForm(std::string target)
+    : AForm("Shrubbery Creation", 145, 137), target_(target)
 {
 }
 
