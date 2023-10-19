@@ -1,5 +1,6 @@
 #include "ScalarConverter.hpp"
 #include <cctype>
+#include <cstdlib>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -125,16 +126,11 @@ void ScalarConverter::toInt(std::string const str)
     }
     if (str[0] != '+' && str[0] != '-' && !std::isdigit(str[0]))
         throw ScalarConverter::ImpossibleConversionException();
-    if (d > std::numeric_limits<int>::max() || static_cast<long>(d) < std::numeric_limits<int>::min())
-        throw ScalarConverter::ImpossibleConversionException();
     if (errno == ERANGE)
         throw ScalarConverter::ImpossibleConversionException();
-    if (*rest == 'f')
-        rest++;
-    if (!*(rest) || *rest == '.')
-        std::cout << "int: " << static_cast<int>(d) << std::endl;
-    else
+    if (d > std::numeric_limits<int>::max() || d < std::numeric_limits<int>::min())
         throw ScalarConverter::ImpossibleConversionException();
+    std::cout << "int: " << static_cast<int>(d) << std::endl;
 }
 
 void ScalarConverter::toFloat(std::string const str)
@@ -142,7 +138,7 @@ void ScalarConverter::toFloat(std::string const str)
     char *rest;
     std::stringstream ss;
     int precision = getPrecision(str);
-    float f = std::strtof(str.c_str(), &rest);
+    double d = std::strtod(str.c_str(), &rest);
     if (errno == ERANGE)
     {
         if (str[0] == '-')
@@ -158,7 +154,7 @@ void ScalarConverter::toFloat(std::string const str)
         if (!std::isdigit(str[0]))
             ss << std::fixed << std::setprecision(precision) << static_cast<float>(str[0]);
         else
-            ss << std::fixed << std::setprecision(precision) << static_cast<float>(f);
+            ss << std::fixed << std::setprecision(precision) << static_cast<float>(d);
         std::cout << "float: " << ss.str() << "f" << std::endl;
         return;
     }
@@ -171,7 +167,7 @@ void ScalarConverter::toFloat(std::string const str)
     {
         if (precision > 7)
             precision = 7;
-        ss << std::fixed << std::setprecision(precision) << static_cast<float>(f);
+        ss << std::fixed << std::setprecision(precision) << static_cast<float>(d);
         std::cout << "float: " << ss.str() << "f" << std::endl;
     }
     else
