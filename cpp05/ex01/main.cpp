@@ -10,6 +10,8 @@ int main()
     {
         Bureaucrat toto = Bureaucrat("Toto", 1);
         Form f1 = Form("42 signup", 1, 1);
+        std::cout << toto << std::endl;
+        std::cout << f1 << std::endl;
         toto.signForm(f1);
     }
     catch (std::exception &e)
@@ -21,6 +23,8 @@ int main()
     {
         Bureaucrat toto = Bureaucrat("Toto", 2);
         Form f1 = Form("42 signup", 1, 1);
+        std::cout << toto << std::endl;
+        std::cout << f1 << std::endl;
         toto.signForm(f1);
     }
     catch (std::exception &e)
@@ -32,6 +36,8 @@ int main()
     {
         Bureaucrat toto = Bureaucrat("Toto", 2);
         Form f1 = Form("Noob coalition", 150, 1);
+        std::cout << toto << std::endl;
+        std::cout << f1 << std::endl;
         toto.signForm(f1);
     }
     catch (std::exception &e)
@@ -43,6 +49,8 @@ int main()
     {
         Bureaucrat toto = Bureaucrat("Toto", 1);
         Form f1 = Form("Noob coalition", 151, 1);
+        std::cout << toto << std::endl;
+        std::cout << f1 << std::endl;
         toto.signForm(f1);
     }
     catch (std::exception &e)
@@ -54,6 +62,8 @@ int main()
     {
         Bureaucrat toto = Bureaucrat("Toto", 1);
         Form f1 = Form("Noob coalition", 0, 1);
+        std::cout << toto << std::endl;
+        std::cout << f1 << std::endl;
         toto.signForm(f1);
     }
     catch (std::exception &e)

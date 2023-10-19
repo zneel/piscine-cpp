@@ -50,10 +50,11 @@ Form &Form::operator=(Form const &rhs)
 
 std::ostream &operator<<(std::ostream &o, Form const &f)
 {
-    o << "Form informations:"
-      << "name: " << f.getName() << " signed: " << f.getSigned()
-      << " grade required to sign: " << f.getGradeRequiredToSign()
-      << " grade required to exec:" << f.getGradeRequiredToExec();
+    o << "Form informations:" << std::endl
+      << "name: " << f.getName() << std::endl
+      << "signed: " << f.getSigned() << std::endl
+      << "grade required to sign: " << f.getGradeRequiredToSign() << std::endl
+      << "grade required to exec:" << f.getGradeRequiredToExec();
     return o;
 }
 
@@ -70,9 +71,7 @@ const char *Form::GradeTooLowException::what() const throw()
 void Form::beSigned(Bureaucrat const &b)
 {
     if (b.getGrade() > gradeRequiredToSign_)
-    {
         throw Form::GradeTooLowException();
-    }
 
     signed_ = true;
 }
