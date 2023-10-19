@@ -25,6 +25,7 @@ void identify(Base *p)
     else if (dynamic_cast<C *>(p))
         std::cout << "C" << std::endl;
 }
+
 void identify(Base &p)
 {
     try
@@ -65,5 +66,6 @@ int main()
     Base *base = generate();
     identify(base);
     identify(*base);
+    delete base;
     return (0);
 }
