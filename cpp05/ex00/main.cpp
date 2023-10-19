@@ -17,15 +17,17 @@ int main()
     }
     catch (std::exception &e)
     {
+        std::cout << "Toto ";
         std::cout << e.what() << std::endl;
     }
     try
     {
-        Bureaucrat noklow("Tata", 0);
+        Bureaucrat noklow("Tata", 151);
         std::cout << noklow << std::endl;
     }
     catch (std::exception &e)
     {
+        std::cout << "Tata ";
         std::cout << e.what() << std::endl;
     }
     try
@@ -35,6 +37,7 @@ int main()
     }
     catch (std::exception &e)
     {
+        std::cout << "Titi ";
         std::cout << e.what() << std::endl;
     }
     try
@@ -49,6 +52,7 @@ int main()
     }
     catch (std::exception &e)
     {
+        std::cout << "Tutu ";
         std::cout << e.what() << std::endl;
     }
     return 0;

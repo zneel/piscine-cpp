@@ -15,6 +15,9 @@ class Bureaucrat
     std::string getName() const;
     int getGrade() const;
 
+    static const int high = 1;
+    static const int low = 150;
+
     Bureaucrat &operator--();
     Bureaucrat &operator++();
 
@@ -33,8 +36,6 @@ class Bureaucrat
 
     std::string const name_;
     int grade_;
-    int high_;
-    int low_;
 };
 
 std::ostream &operator<<(std::ostream &os, Bureaucrat const &b);

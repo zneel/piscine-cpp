@@ -1,10 +1,10 @@
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat(std::string name, int grade) : name_(name), grade_(grade), high_(1), low_(150)
+Bureaucrat::Bureaucrat(std::string name, int grade) : name_(name), grade_(grade)
 {
-    if (grade_ < high_)
+    if (grade_ < high)
         throw Bureaucrat::GradeTooHighException();
-    if (grade_ > low_)
+    if (grade_ > low)
         throw Bureaucrat::GradeTooLowException();
 }
 
@@ -12,7 +12,7 @@ Bureaucrat::~Bureaucrat()
 {
 }
 
-Bureaucrat::Bureaucrat(Bureaucrat const &other) : name_(other.name_), grade_(other.grade_), high_(1), low_(150)
+Bureaucrat::Bureaucrat(Bureaucrat const &other) : name_(other.name_), grade_(other.grade_)
 {
 }
 
@@ -37,7 +37,7 @@ int Bureaucrat::getGrade() const
 
 Bureaucrat &Bureaucrat::operator--()
 {
-    if (grade_ + 1 > low_)
+    if (grade_ + 1 > low)
         throw Bureaucrat::GradeTooLowException();
     ++grade_;
     return *this;
@@ -45,7 +45,7 @@ Bureaucrat &Bureaucrat::operator--()
 
 Bureaucrat &Bureaucrat::operator++()
 {
-    if (grade_ - 1 < high_)
+    if (grade_ - 1 < high)
         throw Bureaucrat::GradeTooHighException();
     --grade_;
     return *this;
