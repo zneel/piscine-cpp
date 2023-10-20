@@ -6,13 +6,12 @@
 template <typename T> class Array
 {
   public:
-    T *array;
-
-    Array<T>() : array(new T[0]), size_(0)
+    Array<T>() : array(NULL), size_(0)
     {
     }
 
-    Array<T>(unsigned int n) : array(new T[n]), size_(n)
+    // () after T[n] calls the default T constructor
+    Array<T>(unsigned int n) : array(new T[n]()), size_(n)
     {
     }
 
@@ -21,10 +20,11 @@ template <typename T> class Array
         delete[] array;
     }
 
-    Array<T>(Array<T> const &other) : size_(other.size_)
+    Array<T>(Array<T> const &other)
     {
-        array = new T[other.size_];
-        for (unsigned int i = 0; i < other.size_; ++i)
+        size_ = other.size();
+        array = new T[other.size()];
+        for (unsigned int i = 0; i < other.size(); ++i)
             array[i] = other.array[i];
     }
 
@@ -33,9 +33,9 @@ template <typename T> class Array
         if (this != &rhs)
         {
             delete[] array;
-            array = new T[rhs.size_];
-            size_ = rhs.size_;
-            for (unsigned int i = 0; i < rhs.size_; ++i)
+            array = new T[rhs.size()];
+            size_ = rhs.size();
+            for (unsigned int i = 0; i < rhs.size(); ++i)
                 array[i] = rhs.array[i];
         }
         return *this;
@@ -54,5 +54,6 @@ template <typename T> class Array
     }
 
   private:
+    T *array;
     unsigned int size_;
 };
