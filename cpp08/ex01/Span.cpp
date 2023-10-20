@@ -3,6 +3,7 @@
 #include <deque>
 #include <limits>
 #include <numeric>
+#include <vector>
 
 Span::Span(unsigned int n) : n_(n)
 {
@@ -40,7 +41,7 @@ int Span::shortestSpan()
 {
     if (d_.size() < 2)
         throw std::exception();
-    std::deque<int> diff(d_.size());
+    std::vector<int> diff(d_.size());
     std::adjacent_difference(d_.begin(), d_.end(), diff.begin());
 
     return *std::min_element(diff.begin() + 1, diff.end());
