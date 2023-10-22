@@ -15,7 +15,6 @@ class Span
     void fill(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 
   private:
-    void mergeUnsorted();
     unsigned int n_;
     std::vector<int> v_;
     bool sorted_;
