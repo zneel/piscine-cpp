@@ -6,37 +6,37 @@
 template <typename T> class Array
 {
   public:
-    Array<T>() : array(NULL), size_(0)
+    Array<T>() : array_(NULL), size_(0)
     {
     }
 
     // () after T[n] calls the default T constructor
-    Array<T>(unsigned int n) : array(new T[n]()), size_(n)
+    Array<T>(unsigned int n) : array_(new T[n]()), size_(n)
     {
     }
 
     ~Array<T>()
     {
-        delete[] array;
+        delete[] array_;
     }
 
     Array<T>(Array<T> const &other)
     {
         size_ = other.size();
-        array = new T[other.size()];
-        for (unsigned int i = 0; i < other.size(); ++i)
-            array[i] = other.array[i];
+        array_ = new T[other.size()];
+        for (unsigned int i = 0; i < size(); ++i)
+            array_[i] = other.array_[i];
     }
 
     Array<T> &operator=(Array<T> const &rhs)
     {
         if (this != &rhs)
         {
-            delete[] array;
-            array = new T[rhs.size()];
+            delete[] array_;
+            array_ = new T[rhs.size()];
             size_ = rhs.size();
             for (unsigned int i = 0; i < rhs.size(); ++i)
-                array[i] = rhs.array[i];
+                array_[i] = rhs.array_[i];
         }
         return *this;
     }
@@ -45,7 +45,7 @@ template <typename T> class Array
     {
         if (i >= size_)
             throw std::out_of_range("Index out of range");
-        return array[i];
+        return array_[i];
     }
 
     unsigned int size() const
@@ -54,6 +54,6 @@ template <typename T> class Array
     }
 
   private:
-    T *array;
+    T *array_;
     unsigned int size_;
 };
