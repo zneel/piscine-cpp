@@ -1,6 +1,6 @@
 #pragma once
 
-#include <deque>
+#include <vector>
 class Span
 {
   public:
@@ -12,8 +12,21 @@ class Span
     void addNumber(int n);
     int shortestSpan();
     int longestSpan();
+    void fill(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 
   private:
+    void mergeUnsorted();
     unsigned int n_;
-    std::deque<int> d_;
+    std::vector<int> v_;
+    bool sorted_;
+
+    class OutOfRangeException : public std::exception
+    {
+        virtual const char *what() const throw();
+    };
+
+    class NotEnoughElements : public std::exception
+    {
+        virtual const char *what() const throw();
+    };
 };
