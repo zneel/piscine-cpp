@@ -17,7 +17,7 @@ template <class T> class MutantStack : public std::stack<T>
     MutantStack &operator=(MutantStack const &rhs)
     {
         if (this != &rhs)
-            this->c = rhs.c;
+            std::stack<T>::operator=(rhs);
 
         return *this;
     }
