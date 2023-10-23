@@ -1,7 +1,11 @@
 #pragma once
 
+#include <cstdlib>
+#include <iostream>
 #include <map>
+#include <sstream>
 #include <string>
+
 class BitcoinExchange
 {
   public:
@@ -26,6 +30,6 @@ class BitcoinExchange
 
     bool isDate(std::string const &str);
     bool hasCorrectHyphen(std::string const &str);
-    bool checkLeapYear(int year, int month, int day);
+    bool checkMonthDay(int year, int month, int day);
     std::map<std::string, float> data_;
 };

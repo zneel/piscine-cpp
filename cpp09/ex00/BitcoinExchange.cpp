@@ -1,6 +1,4 @@
 #include "BitcoinExchange.hpp"
-#include <cstdlib>
-#include <iostream>
 
 BitcoinExchange::BitcoinExchange()
 {
@@ -23,38 +21,51 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange const &rhs)
     return *this;
 }
 
-bool BitcoinExchange::checkLeapYear(int year, int month, int day)
+bool BitcoinExchange::checkMonthDay(int year, int month, int day)
 {
-    if (month != 2)
-        return true;
-    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
+    bool isLeap = ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
+
+    if (month < 1 || month > 12)
+        return false;
+    if (day < 1)
+        return false;
+
+    switch (month)
     {
-        if (month == 2 && day == 29)
-            return true;
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+    case 10:
+    case 12:
+        if (day > 31) // months with 31 days
+            return false;
+        break;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+        if (day > 30) // months with 30 days
+            return false;
+        break;
+    case 2:
+        if (isLeap && day > 29) // 29 days in leap years
+            return false;
+        if (!isLeap && day > 28) // 28 days in non-leap years
+            return false;
+        break;
+    default:
+        return false;
     }
-    else
-    {
-        if (month == 2 && day == 28)
-            return true;
-    }
-    std::cout << year << " " << month << " " << day << std::endl;
-    return false;
+
+    return true;
 }
 
 bool BitcoinExchange::hasCorrectHyphen(std::string const &str)
 {
-    std::string::const_iterator start = str.begin();
-    std::string::const_iterator end = str.end();
-    int i = 0;
-    while (start != end)
-    {
-        if (i == 4 && *start != '-')
-            return false;
-        if (i == 7 && *start != '-')
-            return false;
-        i++;
-        start++;
-    }
+    if (str[4] != '-' || str[7] != '-')
+        return false;
     return true;
 }
 
@@ -75,7 +86,7 @@ bool BitcoinExchange::isDate(std::string const &str)
         return false;
     if (std::atoi(year.c_str()) < 1970 || std::atoi(year.c_str()) > 2038)
         return false;
-    if (!checkLeapYear(std::atoi(year.c_str()), std::atoi(month.c_str()), std::atoi(day.c_str())))
+    if (!checkMonthDay(std::atoi(year.c_str()), std::atoi(month.c_str()), std::atoi(day.c_str())))
         return false;
     return true;
 }
@@ -83,28 +94,21 @@ bool BitcoinExchange::isDate(std::string const &str)
 void BitcoinExchange::parseData(std::string const &line, int lineNumber)
 {
     std::string parsed[2];
-    std::string delim = ",";
-    std::string::const_iterator start = line.begin();
-    std::string::const_iterator end = line.end();
+    std::istringstream iss(line);
+    std::string token;
     int index = 0;
-    while (start != end)
-    {
-        if (*start == ',')
-        {
-            if (start + 1 != end)
-                start++;
-            else
-                break;
-            index = 1;
-        }
-        parsed[index] += *start;
-        start++;
-    }
-    if (lineNumber == 0 && !(parsed[0].compare("date") == 0) && !(parsed[1].compare("exchange_rate") == 0))
+    while (getline(iss, token, ',') && index < 2)
+        parsed[index++] = token;
+    if (index != 2)
+        throw InvalidCSVException();
+    if (parsed[0].empty() || parsed[1].empty())
+        throw InvalidCSVException();
+    if (lineNumber == 0 && parsed[0] != "date" && parsed[1] != "exchange_rate")
         throw InvalidCSVException();
     if (lineNumber > 0 && !isDate(parsed[0]))
         throw InvalidDateException();
-    data_[parsed[0]] = std::strtod(parsed[1].c_str(), NULL);
+    if (lineNumber > 0)
+        data_[parsed[0]] = std::strtod(parsed[1].c_str(), NULL);
     std::cout << parsed[0] << std::endl;
     std::cout << parsed[1] << std::endl;
 }

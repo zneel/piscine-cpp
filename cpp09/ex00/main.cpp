@@ -11,7 +11,7 @@ std::ifstream *openfile(std::string const &filename)
     {
         std::cout << "Error: could not open file" << std::endl;
         delete data;
-        std::exit(1);
+        return NULL;
     }
     return data;
 }
@@ -26,7 +26,13 @@ int main(int ac, char **av)
 
     std::ifstream *data = openfile("data.csv");
     std::ifstream *input = openfile(av[1]);
-    (void)input;
+    if (!data)
+        return 1;
+    if (!input)
+    {
+        delete data;
+        return 1;
+    }
     BitcoinExchange exchange;
     std::string line;
     int lineNumber = 0;
@@ -35,4 +41,6 @@ int main(int ac, char **av)
         if (!line.empty())
             exchange.parseData(line, lineNumber++);
     }
+    delete data;
+    delete input;
 }
