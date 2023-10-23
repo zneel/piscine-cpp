@@ -3,13 +3,14 @@
 #include <fstream>
 #include <iostream>
 
-std::fstream openfile(std::string const &filename)
+std::ifstream *openfile(std::string const &filename)
 {
-    std::fstream data;
-    data.open(filename.c_str(), std::ios::in);
-    if (!data.is_open())
+    std::ifstream *data = new std::ifstream();
+    data->open(filename.c_str(), std::ios::in);
+    if (!data->is_open())
     {
-        std::cout << "Error: could not open database file" << std::endl;
+        std::cout << "Error: could not open file" << std::endl;
+        delete data;
         std::exit(1);
     }
     return data;
@@ -23,6 +24,15 @@ int main(int ac, char **av)
         return 1;
     }
 
-    std::fstream data = openfile("data.csv");
-    std::fstream input = openfile(av[1]);
+    std::ifstream *data = openfile("data.csv");
+    std::ifstream *input = openfile(av[1]);
+    (void)input;
+    BitcoinExchange exchange;
+    std::string line;
+    int lineNumber = 0;
+    while (std::getline(*data, line, '\n'))
+    {
+        if (!line.empty())
+            exchange.parseData(line, lineNumber++);
+    }
 }
