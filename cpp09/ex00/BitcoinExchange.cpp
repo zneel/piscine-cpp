@@ -91,7 +91,7 @@ bool BitcoinExchange::isDate(std::string const &str)
     return true;
 }
 
-void BitcoinExchange::parseData(std::string const &line, int lineNumber)
+void BitcoinExchange::parseDbLine(std::string const &line, int lineNumber)
 {
     std::string parsed[2];
     std::istringstream iss(line);
@@ -108,9 +108,25 @@ void BitcoinExchange::parseData(std::string const &line, int lineNumber)
     if (lineNumber > 0 && !isDate(parsed[0]))
         throw InvalidDateException();
     if (lineNumber > 0)
-        data_[parsed[0]] = std::strtod(parsed[1].c_str(), NULL);
+    {
+        char *rest;
+        double input = std::strtod(parsed[1].c_str(), &rest);
+        if (errno == ERANGE)
+            throw NumberTooLargeException();
+        if (*rest != '\0')
+            throw InvalidNumberException();
+        if (input < 0)
+            throw InvalidNumberException();
+        data_[parsed[0]] = input;
+    }
     std::cout << parsed[0] << std::endl;
     std::cout << parsed[1] << std::endl;
+}
+
+void BitcoinExchange::parseInputLine(std::string const &line, int lineNumber)
+{
+    (void)line;
+    (void)lineNumber;
 }
 
 const char *BitcoinExchange::InvalidDateException::what() const throw()
@@ -121,4 +137,14 @@ const char *BitcoinExchange::InvalidDateException::what() const throw()
 const char *BitcoinExchange::InvalidCSVException::what() const throw()
 {
     return "Invalid csv";
+}
+
+const char *BitcoinExchange::NumberTooLargeException::what() const throw()
+{
+    return "Number too large";
+}
+
+const char *BitcoinExchange::InvalidNumberException::what() const throw()
+{
+    return "Invalid number";
 }

@@ -1,19 +1,18 @@
 #include "BitcoinExchange.hpp"
 #include <cstdlib>
+#include <cstring>
+#include <exception>
 #include <fstream>
 #include <iostream>
 
-std::ifstream *openfile(std::string const &filename)
+void openfile(std::ifstream *fs, std::string const &filename)
 {
-    std::ifstream *data = new std::ifstream();
-    data->open(filename.c_str(), std::ios::in);
-    if (!data->is_open())
+    fs->open(filename.c_str(), std::ios::in);
+    if (!fs->is_open())
     {
-        std::cout << "Error: could not open file" << std::endl;
-        delete data;
-        return NULL;
+        std::cout << "Error: " << std::strerror(errno) << std::endl;
+        std::exit(1);
     }
-    return data;
 }
 
 int main(int ac, char **av)
@@ -24,23 +23,40 @@ int main(int ac, char **av)
         return 1;
     }
 
-    std::ifstream *data = openfile("data.csv");
-    std::ifstream *input = openfile(av[1]);
-    if (!data)
+    std::ifstream data;
+    std::ifstream input;
+    openfile(&data, "data.csv");
+    openfile(&input, av[1]);
+    if (!data || !input)
         return 1;
-    if (!input)
-    {
-        delete data;
-        return 1;
-    }
     BitcoinExchange exchange;
     std::string line;
     int lineNumber = 0;
-    while (std::getline(*data, line, '\n'))
+    while (std::getline(data, line, '\n'))
     {
-        if (!line.empty())
-            exchange.parseData(line, lineNumber++);
+        try
+        {
+            if (!line.empty())
+                exchange.parseDbLine(line, lineNumber++);
+        }
+        catch (std::exception &e)
+        {
+            std::cout << "Error: " << e.what() << std::endl;
+            return 1;
+        }
     }
-    delete data;
-    delete input;
+    while (std::getline(input, line, '\n'))
+    {
+        try
+        {
+            if (!line.empty())
+                exchange.parseInputLine(line, lineNumber++);
+        }
+        catch (std::exception &e)
+        {
+            std::cout << "Error: " << e.what() << std::endl;
+            return 1;
+        }
+    }
+    return 0;
 }

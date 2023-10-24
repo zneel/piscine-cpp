@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cerrno>
 #include <cstdlib>
 #include <iostream>
 #include <map>
@@ -14,7 +15,9 @@ class BitcoinExchange
     BitcoinExchange(BitcoinExchange const &other);
     BitcoinExchange &operator=(BitcoinExchange const &rhs);
 
-    void parseData(std::string const &line, int lineNumber);
+    void parseDbLine(std::string const &line, int lineNumber);
+    void parseInputLine(std::string const &line, int lineNumber);
+    double getCurrentPrice(std::string const &date) const;
 
   private:
     class InvalidDateException : public std::exception
@@ -23,6 +26,16 @@ class BitcoinExchange
         virtual const char *what() const throw();
     };
     class InvalidCSVException : public std::exception
+    {
+      public:
+        virtual const char *what() const throw();
+    };
+    class NumberTooLargeException : public std::exception
+    {
+      public:
+        virtual const char *what() const throw();
+    };
+    class InvalidNumberException : public std::exception
     {
       public:
         virtual const char *what() const throw();
