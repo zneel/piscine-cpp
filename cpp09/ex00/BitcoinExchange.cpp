@@ -1,4 +1,9 @@
 #include "BitcoinExchange.hpp"
+#include <cctype>
+#include <cerrno>
+#include <cstddef>
+#include <cstdlib>
+#include <utility>
 
 BitcoinExchange::BitcoinExchange()
 {
@@ -15,9 +20,7 @@ BitcoinExchange::BitcoinExchange(BitcoinExchange const &other) : data_(other.dat
 BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange const &rhs)
 {
     if (this != &rhs)
-    {
         data_ = rhs.data_;
-    }
     return *this;
 }
 
@@ -62,6 +65,24 @@ bool BitcoinExchange::checkMonthDay(int year, int month, int day)
     return true;
 }
 
+std::string BitcoinExchange::trim(std::string const &str)
+{
+    std::string::const_iterator start = str.begin();
+    std::string::const_iterator end = str.end();
+
+    while (start != end && std::isspace(*start))
+        ++start;
+    if (start != end)
+    {
+        do
+        {
+            --end;
+        } while (std::isspace(*end));
+        ++end;
+    }
+    return std::string(start, end);
+}
+
 bool BitcoinExchange::hasCorrectHyphen(std::string const &str)
 {
     if (str[4] != '-' || str[7] != '-')
@@ -91,20 +112,28 @@ bool BitcoinExchange::isDate(std::string const &str)
     return true;
 }
 
-void BitcoinExchange::parseDbLine(std::string const &line, int lineNumber)
+std::pair<std::string, double> BitcoinExchange::parseFile(std::string const &line, int lineNumber, char delim)
 {
     std::string parsed[2];
     std::istringstream iss(line);
     std::string token;
     int index = 0;
-    while (getline(iss, token, ',') && index < 2)
-        parsed[index++] = token;
+    while (getline(iss, token, delim) && index < 2)
+        parsed[index++] = BitcoinExchange::trim(token);
     if (index != 2)
-        throw InvalidCSVException();
+        throw InvalidInputException();
     if (parsed[0].empty() || parsed[1].empty())
-        throw InvalidCSVException();
-    if (lineNumber == 0 && parsed[0] != "date" && parsed[1] != "exchange_rate")
-        throw InvalidCSVException();
+        throw InvalidInputException();
+    if (delim == ',')
+    {
+        if (lineNumber == 0 && parsed[0] != "date" && parsed[1] != "exchange_rate")
+            throw InvalidCSVException();
+    }
+    else if (delim == '|')
+    {
+        if (lineNumber == 0 && parsed[0] != "date" && parsed[1] != "value")
+            throw InvalidInputException();
+    }
     if (lineNumber > 0 && !isDate(parsed[0]))
         throw InvalidDateException();
     if (lineNumber > 0)
@@ -115,18 +144,35 @@ void BitcoinExchange::parseDbLine(std::string const &line, int lineNumber)
             throw NumberTooLargeException();
         if (*rest != '\0')
             throw InvalidNumberException();
-        if (input < 0)
+        if ((delim == '|' && !(input >= 0 && input <= 1000)) || (delim == ',' && input < 0))
             throw InvalidNumberException();
-        data_[parsed[0]] = input;
+        return std::make_pair(parsed[0], input);
     }
-    std::cout << parsed[0] << std::endl;
-    std::cout << parsed[1] << std::endl;
+    return std::make_pair("", -1);
 }
 
-void BitcoinExchange::parseInputLine(std::string const &line, int lineNumber)
+void BitcoinExchange::addToDb(std::pair<std::string, double> const &p)
 {
-    (void)line;
-    (void)lineNumber;
+    if (data_.find(p.first) != data_.end())
+        throw DuplicateDataException();
+    data_.insert(p);
+}
+
+/**
+ * @brief find nearest value (lower)
+ *
+ * @param p
+ * @return double
+ */
+double BitcoinExchange::getPrice(std::pair<std::string, double> &p) const
+{
+    if (data_.empty())
+        throw EmptyDatabaseException();
+    Database::const_iterator needle = data_.find(p.first);
+    if (needle != data_.end())
+        return needle->second * p.second;
+    Database::const_iterator value = data_.lower_bound(p.first);
+    return (--value)->second * p.second;
 }
 
 const char *BitcoinExchange::InvalidDateException::what() const throw()
@@ -147,4 +193,19 @@ const char *BitcoinExchange::NumberTooLargeException::what() const throw()
 const char *BitcoinExchange::InvalidNumberException::what() const throw()
 {
     return "Invalid number";
+}
+
+const char *BitcoinExchange::InvalidInputException::what() const throw()
+{
+    return "Invalid input";
+}
+
+const char *BitcoinExchange::DuplicateDataException::what() const throw()
+{
+    return "Duplicate data";
+}
+
+const char *BitcoinExchange::EmptyDatabaseException::what() const throw()
+{
+    return "Empty database";
 }

@@ -9,10 +9,7 @@ void openfile(std::ifstream *fs, std::string const &filename)
 {
     fs->open(filename.c_str(), std::ios::in);
     if (!fs->is_open())
-    {
-        std::cout << "Error: " << std::strerror(errno) << std::endl;
-        std::exit(1);
-    }
+        std::cout << "Error: " << filename << ": " << std::strerror(errno) << std::endl;
 }
 
 int main(int ac, char **av)
@@ -27,35 +24,51 @@ int main(int ac, char **av)
     std::ifstream input;
     openfile(&data, "data.csv");
     openfile(&input, av[1]);
-    if (!data || !input)
+    if (!data.is_open())
         return 1;
+    if (!input.is_open())
+    {
+        if (data.is_open())
+            data.close();
+        return 1;
+    }
     BitcoinExchange exchange;
     std::string line;
     int lineNumber = 0;
-    while (std::getline(data, line, '\n'))
+    while (data.good() && std::getline(data, line, '\n'))
     {
         try
         {
             if (!line.empty())
-                exchange.parseDbLine(line, lineNumber++);
+            {
+                std::pair<std::string, double> p = exchange.parseFile(line, lineNumber++, ',');
+                if (p.first.empty() || p.second == -1)
+                    continue;
+                exchange.addToDb(p);
+            }
         }
         catch (std::exception &e)
         {
-            std::cout << "Error: " << e.what() << std::endl;
+            std::cout << "Error data: " << e.what() << std::endl;
             return 1;
         }
     }
-    while (std::getline(input, line, '\n'))
+    lineNumber = 0;
+    while (input.good() && std::getline(input, line, '\n'))
     {
         try
         {
             if (!line.empty())
-                exchange.parseInputLine(line, lineNumber++);
+            {
+                std::pair<std::string, double> p = exchange.parseFile(line, lineNumber++, '|');
+                if (p.first.empty() || p.second == -1)
+                    continue;
+                std::cout << p.first << ": " << exchange.getPrice(p) << std::endl;
+            }
         }
         catch (std::exception &e)
         {
-            std::cout << "Error: " << e.what() << std::endl;
-            return 1;
+            std::cout << "Error input: " << e.what() << std::endl;
         }
     }
     return 0;
