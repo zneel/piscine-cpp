@@ -11,20 +11,20 @@ class BitcoinExchange
   public:
     BitcoinExchange();
     ~BitcoinExchange();
-    BitcoinExchange(BitcoinExchange const &other);
-    BitcoinExchange &operator=(BitcoinExchange const &rhs);
 
     std::pair<std::string, double> parseFile(std::string const &line, int lineNumber, char delim);
     void addToDb(std::pair<std::string, double> const &p);
     double getPrice(std::pair<std::string, double> &p) const;
 
   private:
+    BitcoinExchange(BitcoinExchange const &other);
+    BitcoinExchange &operator=(BitcoinExchange const &rhs);
     typedef std::map<std::string, double> Database;
 
-    bool isDate(std::string const &str);
-    bool hasCorrectHyphen(std::string const &str);
-    bool checkMonthDay(int year, int month, int day);
-    std::string trim(std::string const &);
+    bool isDate_(std::string const &str);
+    bool hasCorrectHyphen_(std::string const &str);
+    bool checkMonthDay_(int year, int month, int day);
+    std::string trim_(std::string const &);
     Database data_;
 
     /**

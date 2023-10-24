@@ -24,7 +24,7 @@ BitcoinExchange &BitcoinExchange::operator=(BitcoinExchange const &rhs)
     return *this;
 }
 
-bool BitcoinExchange::checkMonthDay(int year, int month, int day)
+bool BitcoinExchange::checkMonthDay_(int year, int month, int day)
 {
     bool isLeap = ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
 
@@ -65,7 +65,7 @@ bool BitcoinExchange::checkMonthDay(int year, int month, int day)
     return true;
 }
 
-std::string BitcoinExchange::trim(std::string const &str)
+std::string BitcoinExchange::trim_(std::string const &str)
 {
     std::string::const_iterator start = str.begin();
     std::string::const_iterator end = str.end();
@@ -83,18 +83,18 @@ std::string BitcoinExchange::trim(std::string const &str)
     return std::string(start, end);
 }
 
-bool BitcoinExchange::hasCorrectHyphen(std::string const &str)
+bool BitcoinExchange::hasCorrectHyphen_(std::string const &str)
 {
     if (str[4] != '-' || str[7] != '-')
         return false;
     return true;
 }
 
-bool BitcoinExchange::isDate(std::string const &str)
+bool BitcoinExchange::isDate_(std::string const &str)
 {
     if (str.length() != 10)
         return false;
-    if (!hasCorrectHyphen(str))
+    if (!hasCorrectHyphen_(str))
         return false;
     std::string year = str.substr(0, 4);
     std::string month = str.substr(5, 2);
@@ -107,7 +107,7 @@ bool BitcoinExchange::isDate(std::string const &str)
         return false;
     if (std::atoi(year.c_str()) < 1970 || std::atoi(year.c_str()) > 2038)
         return false;
-    if (!checkMonthDay(std::atoi(year.c_str()), std::atoi(month.c_str()), std::atoi(day.c_str())))
+    if (!checkMonthDay_(std::atoi(year.c_str()), std::atoi(month.c_str()), std::atoi(day.c_str())))
         return false;
     return true;
 }
@@ -119,7 +119,7 @@ std::pair<std::string, double> BitcoinExchange::parseFile(std::string const &lin
     std::string token;
     int index = 0;
     while (getline(iss, token, delim) && index < 2)
-        parsed[index++] = BitcoinExchange::trim(token);
+        parsed[index++] = trim_(token);
     if (index != 2)
         throw InvalidInputException();
     if (parsed[0].empty() || parsed[1].empty())
@@ -134,7 +134,7 @@ std::pair<std::string, double> BitcoinExchange::parseFile(std::string const &lin
         if (lineNumber == 0 && parsed[0] != "date" && parsed[1] != "value")
             throw InvalidInputException();
     }
-    if (lineNumber > 0 && !isDate(parsed[0]))
+    if (lineNumber > 0 && !isDate_(parsed[0]))
         throw InvalidDateException();
     if (lineNumber > 0)
     {

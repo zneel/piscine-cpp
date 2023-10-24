@@ -12,30 +12,12 @@ void openfile(std::ifstream *fs, std::string const &filename)
         std::cout << "Error: " << filename << ": " << std::strerror(errno) << std::endl;
 }
 
-int main(int ac, char **av)
+bool parseDb(std::ifstream &fs, BitcoinExchange &exchange)
 {
-    if (ac != 2)
-    {
-        std::cout << "Usage: ./btc [input_file.txt]" << std::endl;
-        return 1;
-    }
-
-    std::ifstream data;
-    std::ifstream input;
-    openfile(&data, "data.csv");
-    openfile(&input, av[1]);
-    if (!data.is_open())
-        return 1;
-    if (!input.is_open())
-    {
-        if (data.is_open())
-            data.close();
-        return 1;
-    }
-    BitcoinExchange exchange;
     std::string line;
     int lineNumber = 0;
-    while (data.good() && std::getline(data, line, '\n'))
+    bool ok = true;
+    while (fs.good() && std::getline(fs, line, '\n'))
     {
         try
         {
@@ -50,11 +32,19 @@ int main(int ac, char **av)
         catch (std::exception &e)
         {
             std::cout << "Error data: " << e.what() << std::endl;
-            return 1;
+            ok = false;
         }
     }
-    lineNumber = 0;
-    while (input.good() && std::getline(input, line, '\n'))
+
+    return ok;
+}
+
+bool parseFile(std::ifstream &fs, BitcoinExchange &exchange)
+{
+    std::string line;
+    int lineNumber = 0;
+    bool ok = true;
+    while (fs.good() && std::getline(fs, line, '\n'))
     {
         try
         {
@@ -69,7 +59,42 @@ int main(int ac, char **av)
         catch (std::exception &e)
         {
             std::cout << "Error input: " << e.what() << std::endl;
+            ok = false;
         }
     }
+
+    return ok;
+}
+
+int main(int ac, char **av)
+{
+    if (ac != 2)
+    {
+        std::cout << "Usage: ./btc [input_file.txt]" << std::endl;
+        return 1;
+    }
+
+    std::ifstream data;
+    std::ifstream input;
+    openfile(&data, "data.csv");
+    openfile(&input, av[1]);
+    if (!data.is_open())
+        return 1;
+
+    if (!input.is_open())
+    {
+        if (data.is_open())
+            data.close();
+        return 1;
+    }
+
+    BitcoinExchange exchange;
+
+    if (!parseDb(data, exchange))
+        return 1;
+
+    if (!parseFile(input, exchange))
+        return 1;
+
     return 0;
 }
