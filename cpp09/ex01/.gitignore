@@ -1,0 +1,6 @@
+*.o
+*.d
+.cache
+compile_commands.json
+RPN
+en.subject.pdf
