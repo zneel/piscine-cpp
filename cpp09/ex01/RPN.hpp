@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <list>
 #include <sstream>
 #include <stack>
 #include <stdint.h>
@@ -20,9 +19,7 @@ class RPN
 
   private:
     int64_t do_operation(int64_t a, int64_t b, std::string const &op) const;
-    // clang-format off
-    std::stack<int64_t , std::list<int64_t > > stack_;
-    // clang-format on
+    std::stack<int64_t> stack_;
     class ErrorException : public std::exception
     {
       public:
