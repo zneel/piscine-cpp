@@ -58,7 +58,7 @@ int main(int ac, char **av)
     print_container(input);
     const std::clock_t c_start = std::clock();
     // clang-format off
-    pmergevector.mergeInsertSortVector(input.begin(),input.end(), compare_int,1);
+    pmergevector.mergeInsertSortVector(input, compare_int);
     // clang-format on
     const std::clock_t c_end = std::clock();
     std::cout << "Vector after: ";

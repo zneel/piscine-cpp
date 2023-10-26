@@ -6,6 +6,10 @@
 #include <utility>
 #include <vector>
 
+// clang-format off
+typedef std::vector<std::pair<int, int> > VectorPair;
+// clang-format on
+
 class PmergeMe
 {
   public:
@@ -23,30 +27,77 @@ class PmergeMe
         return jacobsthalNumber(n - 1) + 2 * jacobsthalNumber(n - 2);
     }
 
-    void grouped_iter_swap(std::vector<int>::iterator a, std::vector<int>::iterator b, int n)
+    void insert(VectorPair &pairs, int n, bool (*comp)(int, int))
     {
-        std::swap_ranges(a, b + n, b);
+        if (n <= 0 || !comp(pairs[n].second, pairs[n - 1].second))
+            return;
+        std::swap(pairs[n], pairs[n - 1]);
+        insert(pairs, n - 1, comp);
     }
 
-    void mergeInsertSortVector(std::vector<int>::iterator start, std::vector<int>::iterator end,
-                               bool (*comp)(int a, int b), int itSize)
+    void vectorPairs(VectorPair &pairs, int n, bool (*comp)(int, int))
     {
-        (void)itSize;
-        std::cout << std::endl;
-        long size = std::distance(start, end);
-        if (size <= 1)
+        if (n <= 1)
             return;
-        bool isEven = size % 2 == 0;
-        std::vector<int>::iterator newEnd = isEven ? end : end - 1;
-        // make pairs and sort bigger numbers to the right
-        for (std::vector<int>::iterator it = start; start != newEnd; start += 2)
+        vectorPairs(pairs, n - 1, comp);
+        insert(pairs, n - 1, comp);
+    }
+
+    void makePairsFromInput(std::vector<int> &input, bool (*comp)(int a, int b))
+    {
+        isEven_ = input.size() % 2 == 0;
+        std::vector<int>::iterator newEnd = isEven_ ? input.end() : input.end() - 1;
+        if (!isEven_)
+            spare_ = input.back();
+        for (std::vector<int>::iterator it = input.begin(); it != newEnd; it += 2)
         {
             if (comp(it[1], it[0]))
-                grouped_iter_swap(it, it + 1, 2);
+                vecPairs_.push_back(std::make_pair(it[1], it[0]));
+            else
+                vecPairs_.push_back(std::make_pair(it[0], it[1]));
         }
-        std::cout << "start: ";
-        for (std::vector<int>::iterator it = start; it != end; ++it)
-            std::cout << *it << " ";
-        mergeInsertSortVector(start, newEnd, comp, 2);
     }
+
+    void insertSortVector(std::vector<int> &input, bool (*comp)(int a, int b))
+    {
+        (void)comp;
+        // insert vecPairs_ in correct position following the jacobshtal sequence
+        std::vector<int>::iterator it = input.begin();
+        for (VectorPair::iterator itPair = vecPairs_.begin(); itPair != vecPairs_.end(); ++itPair)
+        {
+            int jacobsthal = jacobsthalNumber(itPair - vecPairs_.begin());
+            std::advance(it, jacobsthal);
+            input.insert(it, itPair->first);
+            ++it;
+        }
+    }
+
+    void mergeInsertSortVector(std::vector<int> &input, bool (*comp)(int a, int b))
+    {
+        makePairsFromInput(input, comp);
+        std::cout << "pairs: ";
+        for (VectorPair::iterator it = vecPairs_.begin(); it != vecPairs_.end(); ++it)
+            std::cout << "(" << it->first << ", " << it->second << ") ";
+        std::cout << std::endl;
+        vectorPairs(vecPairs_, vecPairs_.size(), comp);
+        std::vector<int> result;
+        for (VectorPair::iterator it = vecPairs_.begin(); it != vecPairs_.end(); ++it)
+            result.push_back(it->second);
+        input = result;
+        std::cout << "input: ";
+        for (std::vector<int>::iterator it = input.begin(); it != input.end(); ++it)
+            std::cout << *it << " ";
+        std::cout << std::endl;
+        insertSortVector(input, comp);
+        if (!isEven_)
+        {
+            int pos = std::upper_bound(input.begin(), input.end(), spare_, comp) - input.begin();
+            input.insert(input.begin() + pos, spare_);
+        }
+    }
+
+  private:
+    VectorPair vecPairs_;
+    int spare_;
+    bool isEven_;
 };
