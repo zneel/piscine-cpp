@@ -14,42 +14,39 @@ class PmergeMe
     PmergeMe(PmergeMe const &);
     PmergeMe &operator=(PmergeMe const &);
 
-    void merge_insert_sort_vector(std::vector<int> &d, int (*comp)(int a, int b))
+    int jacobsthalNumber(int n)
     {
-        if (d.size() < 2)
-            return;
-        bool isOdd = d.size() % 2 == 0;
-        std::vector<int>::iterator endOdd = isOdd ? d.end() : d.end() - 1;
-        std::vector<int> mainChain;
-        for (std::vector<int>::iterator it = d.begin(); it != endOdd; it += 2)
-        {
-            if (comp(it[0], it[1]))
-                mainChain.push_back(it[1]);
-            else
-                mainChain.push_back(it[0]);
-        }
-        for (std::vector<int>::iterator it = d.begin(); it != d.end(); ++it)
-        {
-            std::cout << "d: " << *it << " " << std::endl;
-        }
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return 1;
+        return jacobsthalNumber(n - 1) + 2 * jacobsthalNumber(n - 2);
+    }
 
-        for (std::vector<int>::iterator it = mainChain.begin(); it != mainChain.end(); ++it)
+    void grouped_iter_swap(std::vector<int>::iterator a, std::vector<int>::iterator b, int n)
+    {
+        std::swap_ranges(a, b + n, b);
+    }
+
+    void mergeInsertSortVector(std::vector<int>::iterator start, std::vector<int>::iterator end,
+                               bool (*comp)(int a, int b), int itSize)
+    {
+        (void)itSize;
+        std::cout << std::endl;
+        long size = std::distance(start, end);
+        if (size <= 1)
+            return;
+        bool isEven = size % 2 == 0;
+        std::vector<int>::iterator newEnd = isEven ? end : end - 1;
+        // make pairs and sort bigger numbers to the right
+        for (std::vector<int>::iterator it = start; start != newEnd; start += 2)
         {
-            std::cout << "mainchain: " << *it << " " << std::endl;
+            if (comp(it[1], it[0]))
+                grouped_iter_swap(it, it + 1, 2);
         }
-        merge_insert_sort_vector(mainChain, comp);
-        if (!isOdd)
-            mainChain.push_back(*d.end());
-        // std::vector<int>::iterator deqStart = d.begin();
-        // std::vector<int>::iterator mainChainStart = mainChain.begin();
-        // while (deqStart != d.end() && mainChainStart != mainChain.end())
-        // {
-        //     if (!comp(*deqStart, *mainChainStart))
-        //     {
-        //         d.insert(deqStart, *mainChainStart);
-        //         ++mainChainStart;
-        //     }
-        //     ++deqStart;
-        // }
+        std::cout << "start: ";
+        for (std::vector<int>::iterator it = start; it != end; ++it)
+            std::cout << *it << " ";
+        mergeInsertSortVector(start, newEnd, comp, 2);
     }
 };
