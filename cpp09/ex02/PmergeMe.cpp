@@ -92,8 +92,6 @@ void PmergeMe::mergeInsertSort(std::vector<int> &input, bool (*comp)(int a, int 
     std::vector<int> mainChain;
     for (VectorPair::iterator it = vecPairs_.begin(); it != vecPairs_.end(); ++it)
         mainChain.push_back(it->second);
-    if (!isEven_)
-        vecPairs_.push_back(std::make_pair(spare_, mainChain.back()));
     mainChain.insert(mainChain.begin(), vecPairs_.begin()->first);
     vecPairs_.erase(vecPairs_.begin());
     insertSort_(mainChain, comp);
@@ -104,7 +102,11 @@ void PmergeMe::mergeInsertSort(std::vector<int> &input, bool (*comp)(int a, int 
         mainChain.insert(insertionPoint, last->first);
         vecPairs_.pop_back();
     }
-
+    if (!isEven_)
+    {
+        VectorIntIterator pos = std::upper_bound(mainChain.begin(), mainChain.end(), spare_, comp);
+        mainChain.insert(pos, spare_);
+    }
     input = mainChain;
 }
 
