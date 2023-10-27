@@ -8,6 +8,18 @@
 #include <list>
 #include <vector>
 
+int comparisonCount = 0;
+bool compare(int lhs, int rhs)
+{
+    ++comparisonCount;
+    return lhs < rhs;
+}
+
+bool compare2(int lhs, int rhs)
+{
+    return lhs < rhs;
+}
+
 template <typename T> void print(T &cont)
 {
     size_t size = cont.size();
@@ -59,24 +71,21 @@ int main(int ac, char **av)
     std::cout << "Before: ";
     print(vect);
     const std::clock_t v_start = std::clock();
-    pmerge.mergeInsertSort(vect, std::less<int>());
+    pmerge.mergeInsertSort(vect, compare);
     const std::clock_t v_end = std::clock();
-    bool isSortedVect = pmerge.isSorted(vect);
+    bool isSortedVect = pmerge.isSorted(vect, compare2);
     std::cout << "After:  ";
     print(vect);
     std::cout << "Time to process a range of 5 elements with std::vector"
               << " : " << 1000.0 * (v_end - v_start) / CLOCKS_PER_SEC << " ms" << std::endl;
     const std::clock_t d_start = std::clock();
-    pmerge.mergeInsertSort(deq, std::less<int>());
+    pmerge.mergeInsertSort(deq, compare2);
     const std::clock_t d_end = std::clock();
-    bool isSortedDeq = pmerge.isSorted(deq);
+    bool isSortedDeq = pmerge.isSorted(deq, compare2);
     std::cout << "Time to process a range of 5 elements with std::deque"
               << " : " << 1000.0 * (d_end - d_start) / CLOCKS_PER_SEC << " ms" << std::endl;
-
-    std::cout << "Original vector size: " << originalVectSize << std::endl;
-    std::cout << "Original deque size: " << originalDeqSize << std::endl;
-    std::cout << "Final vector size: " << vect.size() << std::endl;
-    std::cout << "Final deque size: " << deq.size() << std::endl;
-
-    return isSortedDeq && isSortedVect;
+    std::cout << "Number of comparisons: " << comparisonCount << std::endl;
+    if (isSortedDeq && isSortedVect && (vect.size() == originalVectSize) && (deq.size() == originalDeqSize))
+        return 0;
+    return 1;
 }

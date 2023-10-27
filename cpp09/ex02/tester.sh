@@ -9,7 +9,7 @@ for size in $(seq 1 $max_size); do
   arr=$(shuf -i 0-1000000 -n $size | tr "\n" " ")
 
   # Run the program and capture the return code
-  ./PmergeMe $arr >/dev/null
+  ./PmergeMe $arr
   ret_code=$?
 
   # Log the results and exit if test failed
