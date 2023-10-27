@@ -1,6 +1,6 @@
 NAME        :=  RPN
 CXX         :=  c++
-CXXFLAGS    :=  -Wall -Wextra -Werror -MMD -std=c++98 -pedantic-errors -g3
+CXXFLAGS    :=  -Wall -Wextra -Werror -MMD -std=c++98
 SRCS        :=  main.cpp \
 								RPN.cpp
 
