@@ -8,14 +8,7 @@
 #include <list>
 #include <vector>
 
-int comparisonCount = 0;
 bool compare(int lhs, int rhs)
-{
-    ++comparisonCount;
-    return lhs < rhs;
-}
-
-bool compare2(int lhs, int rhs)
 {
     return lhs < rhs;
 }
@@ -73,18 +66,17 @@ int main(int ac, char **av)
     const std::clock_t v_start = std::clock();
     pmerge.mergeInsertSort(vect, compare);
     const std::clock_t v_end = std::clock();
-    bool isSortedVect = pmerge.isSorted(vect, compare2);
+    bool isSortedVect = pmerge.isSorted(vect, compare);
     std::cout << "After:  ";
     print(vect);
     std::cout << "Time to process a range of 5 elements with std::vector"
               << " : " << 1000.0 * (v_end - v_start) / CLOCKS_PER_SEC << " ms" << std::endl;
     const std::clock_t d_start = std::clock();
-    pmerge.mergeInsertSort(deq, compare2);
+    pmerge.mergeInsertSort(deq, compare);
     const std::clock_t d_end = std::clock();
-    bool isSortedDeq = pmerge.isSorted(deq, compare2);
+    bool isSortedDeq = pmerge.isSorted(deq, compare);
     std::cout << "Time to process a range of 5 elements with std::deque"
               << " : " << 1000.0 * (d_end - d_start) / CLOCKS_PER_SEC << " ms" << std::endl;
-    std::cout << "Number of comparisons: " << comparisonCount << std::endl;
     if (isSortedDeq && isSortedVect && (vect.size() == originalVectSize) && (deq.size() == originalDeqSize))
         return 0;
     return 1;
