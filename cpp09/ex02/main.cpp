@@ -32,6 +32,18 @@ template <typename T> void print(T &cont)
     std::cout << std::endl;
 }
 
+bool isANumber(char *str)
+{
+    int i = 0;
+    while (str[i])
+    {
+        if (!std::isdigit(str[i]))
+            return false;
+        ++i;
+    }
+    return true;
+}
+
 int main(int ac, char **av)
 {
     if (ac == 1)
@@ -44,6 +56,11 @@ int main(int ac, char **av)
     std::deque<int> deq;
     for (int i = 1; i < ac; ++i)
     {
+        if (!isANumber(av[i]))
+        {
+            std::cout << "Error" << std::endl;
+            return (1);
+        }
         int v = std::atoi(av[i]);
         if (v < 0)
         {
