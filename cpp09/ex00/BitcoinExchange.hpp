@@ -66,4 +66,9 @@ class BitcoinExchange
       public:
         virtual const char *what() const throw();
     };
+    class NoDataForDateException : public std::exception
+    {
+      public:
+        virtual const char *what() const throw();
+    };
 };

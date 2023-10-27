@@ -172,6 +172,8 @@ double BitcoinExchange::getPrice(std::pair<std::string, double> &p) const
     if (needle != data_.end())
         return needle->second * p.second;
     Database::const_iterator value = data_.lower_bound(p.first);
+    if (value == data_.begin())
+        throw NoDataForDateException();
     return (--value)->second * p.second;
 }
 
@@ -208,4 +210,9 @@ const char *BitcoinExchange::DuplicateDataException::what() const throw()
 const char *BitcoinExchange::EmptyDatabaseException::what() const throw()
 {
     return "Empty database";
+}
+
+const char *BitcoinExchange::NoDataForDateException::what() const throw()
+{
+    return "No data for date";
 }
