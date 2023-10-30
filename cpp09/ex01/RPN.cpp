@@ -29,7 +29,7 @@ int64_t RPN::evaluate(std::string const &expr)
     {
         if (line.empty())
             continue;
-        if (line.find_first_of("0123456789") != std::string::npos)
+        if (line.size() == 1 && line.find_first_of("0123456789") != std::string::npos)
         {
             if (std::atoi(line.c_str()) > 9 || std::atoi(line.c_str()) < 0)
                 throw ErrorException();
@@ -46,6 +46,8 @@ int64_t RPN::evaluate(std::string const &expr)
             int64_t result = do_operation(a, b, line);
             stack_.push(result);
         }
+        else
+            throw ErrorException();
     }
     if (stack_.size() > 1 || stack_.size() == 0)
         throw ErrorException();

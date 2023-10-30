@@ -3,6 +3,7 @@
 #include <cstring>
 #include <exception>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 
 void openfile(std::ifstream *fs, std::string const &filename)
@@ -12,11 +13,10 @@ void openfile(std::ifstream *fs, std::string const &filename)
         std::cout << "Error: " << filename << ": " << std::strerror(errno) << std::endl;
 }
 
-bool parseDb(std::ifstream &fs, BitcoinExchange &exchange)
+void parseDb(std::ifstream &fs, BitcoinExchange &exchange)
 {
     std::string line;
     int lineNumber = 0;
-    bool ok = true;
     while (fs.good() && std::getline(fs, line, '\n'))
     {
         try
@@ -32,18 +32,14 @@ bool parseDb(std::ifstream &fs, BitcoinExchange &exchange)
         catch (std::exception &e)
         {
             std::cout << "Error data: " << e.what() << std::endl;
-            ok = false;
         }
     }
-
-    return ok;
 }
 
-bool parseFile(std::ifstream &fs, BitcoinExchange &exchange)
+void parseFile(std::ifstream &fs, BitcoinExchange &exchange)
 {
     std::string line;
     int lineNumber = 0;
-    bool ok = true;
     while (fs.good() && std::getline(fs, line, '\n'))
     {
         try
@@ -53,17 +49,15 @@ bool parseFile(std::ifstream &fs, BitcoinExchange &exchange)
                 std::pair<std::string, double> p = exchange.parseFile(line, lineNumber++, '|');
                 if (p.first.empty() || p.second == -1)
                     continue;
-                std::cout << p.first << ": " << exchange.getPrice(p) << std::endl;
+                std::cout << p.first << ": " << std::fixed << std::setprecision(2) << p.second << " => "
+                          << exchange.getPrice(p) << std::endl;
             }
         }
         catch (std::exception &e)
         {
             std::cout << "Error input: " << e.what() << std::endl;
-            ok = false;
         }
     }
-
-    return ok;
 }
 
 int main(int ac, char **av)
@@ -90,11 +84,8 @@ int main(int ac, char **av)
 
     BitcoinExchange exchange;
 
-    if (!parseDb(data, exchange))
-        return 1;
-
-    if (!parseFile(input, exchange))
-        return 1;
+    parseDb(data, exchange);
+    parseFile(input, exchange);
 
     return 0;
 }

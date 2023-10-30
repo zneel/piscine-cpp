@@ -121,31 +121,55 @@ std::pair<std::string, double> BitcoinExchange::parseFile(std::string const &lin
     while (getline(iss, token, delim) && index < 2)
         parsed[index++] = trim_(token);
     if (index != 2)
+    {
+        std::cout << parsed[0] << ": ";
         throw InvalidInputException();
+    }
     if (parsed[0].empty() || parsed[1].empty())
+    {
+        std::cout << parsed[0] << ": ";
         throw InvalidInputException();
+    }
     if (delim == ',')
     {
         if (lineNumber == 0 && parsed[0] != "date" && parsed[1] != "exchange_rate")
+        {
+            std::cout << parsed[0] << ": ";
             throw InvalidCSVException();
+        }
     }
     else if (delim == '|')
     {
         if (lineNumber == 0 && parsed[0] != "date" && parsed[1] != "value")
+        {
+            std::cout << parsed[0] << ": ";
             throw InvalidInputException();
+        }
     }
     if (lineNumber > 0 && !isDate_(parsed[0]))
+    {
+        std::cout << parsed[0] << ": ";
         throw InvalidDateException();
+    }
     if (lineNumber > 0)
     {
         char *rest;
         double input = std::strtod(parsed[1].c_str(), &rest);
         if (errno == ERANGE)
+        {
+            std::cout << parsed[0] << ": ";
             throw NumberTooLargeException();
+        }
         if (*rest != '\0')
+        {
+            std::cout << parsed[0] << ": ";
             throw InvalidNumberException();
+        }
         if ((delim == '|' && !(input >= 0 && input <= 1000)) || (delim == ',' && input < 0))
+        {
+            std::cout << parsed[0] << ": ";
             throw InvalidNumberException();
+        }
         return std::make_pair(parsed[0], input);
     }
     return std::make_pair("", -1);

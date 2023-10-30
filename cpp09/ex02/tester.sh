@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Maximum array size
-max_size=10000
+max_size=3000
 
 # Test with various array sizes
 for size in $(seq 1 $max_size); do

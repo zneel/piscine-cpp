@@ -1,7 +1,7 @@
 #include "PmergeMe.hpp"
 #include <deque>
 
-PmergeMe::PmergeMe()
+PmergeMe::PmergeMe() : vecPairs_(0), dequePairs_(0), spare_(0), isEven_(false)
 {
 }
 
@@ -10,6 +10,7 @@ PmergeMe::~PmergeMe()
 }
 
 PmergeMe::PmergeMe(PmergeMe const &other)
+    : vecPairs_(other.vecPairs_), dequePairs_(other.dequePairs_), spare_(other.spare_), isEven_(other.isEven_)
 {
     (void)other;
 }
@@ -18,6 +19,10 @@ PmergeMe &PmergeMe::operator=(PmergeMe const &rhs)
 {
     if (this != &rhs)
     {
+        vecPairs_ = rhs.vecPairs_;
+        dequePairs_ = rhs.dequePairs_;
+        spare_ = rhs.spare_;
+        isEven_ = rhs.isEven_;
     }
     return *this;
 }
@@ -170,7 +175,7 @@ void PmergeMe::mergeInsertSort(std::deque<int> &input, bool (*comp)(int a, int b
         return;
     makePairsFromInput_(input, comp);
     pairsOfPairs_(dequePairs_, dequePairs_.size(), comp);
-    std::deque<int> mainChain;
+    std::deque<int> mainChain(0);
     for (DequePair::iterator it = dequePairs_.begin(); it != dequePairs_.end(); ++it)
         mainChain.push_back(it->second);
     mainChain.insert(mainChain.begin(), dequePairs_.begin()->first);

@@ -22,8 +22,7 @@ class PmergeMe
   public:
     PmergeMe();
     ~PmergeMe();
-    PmergeMe(PmergeMe const &);
-    PmergeMe &operator=(PmergeMe const &);
+
     void mergeInsertSort(std::vector<int> &input, bool (*comp)(int a, int b));
     void mergeInsertSort(std::deque<int> &input, bool (*comp)(int a, int b));
     bool hasDuplicates(std::vector<int> &input);
@@ -32,6 +31,9 @@ class PmergeMe
     bool isSorted(std::deque<int> &input, bool (*comp)(int a, int b));
 
   private:
+    PmergeMe(PmergeMe const &);
+    PmergeMe &operator=(PmergeMe const &);
+
     int jacobsthalNumber_(int n);
     void merge_(VectorPair &pairs, int n, bool (*comp)(int a, int b));
     void merge_(DequePair &pairs, int n, bool (*comp)(int a, int b));

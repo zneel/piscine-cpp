@@ -13,12 +13,12 @@ class RPN
   public:
     RPN();
     ~RPN();
-    RPN(RPN const &other);
-    RPN &operator=(RPN const &rhs);
 
     int64_t evaluate(std::string const &expr);
 
   private:
+    RPN(RPN const &other);
+    RPN &operator=(RPN const &rhs);
     int64_t do_operation(int64_t a, int64_t b, std::string const &op) const;
     // clang-format off
     std::stack<int64_t,std::list<int64_t> > stack_;
